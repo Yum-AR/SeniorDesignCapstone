@@ -1,8 +1,8 @@
 /*
-  This example requires Tailwind CSS v2.0+ 
-  
+  This example requires Tailwind CSS v2.0+
+
   This example requires some changes to your config:
-  
+
   ```
   // tailwind.config.js
   module.exports = {
@@ -17,32 +17,30 @@
 import { Fragment, useState, useEffect } from 'react'
 import NavBar from '../components/Nav/NavBar'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
-//import { XIcon } from '@heroicons/react/outline'
+// import { XIcon } from '@heroicons/react/outline'
 import XIcon from '../components/Icons/XIcon'
 import { ChevronDownIcon, FilterIcon, MinusSmIcon, PlusSmIcon, ViewGridIcon } from '@heroicons/react/solid'
 import SearchCards from '../components/Functionality/SearchCards'
 import { sortOptions, filters } from '../components/reused_variables/searchFilterConstants'
 
-//firebase imports
-import { db } from '../firebase/clientApp';
-import { getDoc } from "firebase/firestore"
-import { collection, QueryDocumentSnapshot, DocumentData, query, where, limit, getDocs } from "@firebase/firestore";
+// firebase imports
+import { db } from '../firebase/clientApp'
+import { getDoc } from 'firebase/firestore'
+import { collection, QueryDocumentSnapshot, DocumentData, query, where, limit, getDocs } from '@firebase/firestore'
 
-
-function classNames(...classes) {
+function classNames (...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function restaurantSearch() {
-  const [restaurantArray, setRestaurantArray] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
+export default function restaurantSearch () {
+  const [restaurantArray, setRestaurantArray] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([])
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   const restaurantCollectionReference = collection(db, 'Restaurant')
 
-
   const fetchData = async () => {
-    let data;
-    const restaurantCollectionQuery = query(restaurantCollectionReference, where("isApproved", "==", true))
+    let data
+    const restaurantCollectionQuery = query(restaurantCollectionReference, where('isApproved', '==', true))
     await getDocs(restaurantCollectionQuery)
       .then((querySnapshot) => {
         const newRestaurantDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -50,7 +48,7 @@ export default function restaurantSearch() {
         return data
       })
       .catch((err) => {
-        console.error("Failed to get data", err)
+        console.error('Failed to get data', err)
       })
     setRestaurantArray(data)
     return data
@@ -61,9 +59,7 @@ export default function restaurantSearch() {
       .then((data) => {
 
       })
-
-
-  }, []);
+  }, [])
 
   return (
     <div className="bg-white">
@@ -118,11 +114,13 @@ export default function restaurantSearch() {
                             <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
                               <span className="font-medium text-gray-900">{section.name}</span>
                               <span className="ml-6 flex items-center">
-                                {open ? (
+                                {open
+                                  ? (
                                   <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
-                                ) : (
+                                    )
+                                  : (
                                   <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
-                                )}
+                                    )}
                               </span>
                             </Disclosure.Button>
                           </h3>
@@ -164,7 +162,6 @@ export default function restaurantSearch() {
 
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
-
 
                 <Transition
                   as={Fragment}
@@ -226,11 +223,13 @@ export default function restaurantSearch() {
                           <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
                             <span className="font-medium text-gray-900">{section.name}</span>
                             <span className="ml-6 flex items-center">
-                              {open ? (
+                              {open
+                                ? (
                                 <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
-                              ) : (
+                                  )
+                                : (
                                 <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
-                              )}
+                                  )}
                             </span>
                           </Disclosure.Button>
                         </h3>

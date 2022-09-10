@@ -1,7 +1,4 @@
 {
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    },
     "env": {
         "browser": true,
         "es2021": true
@@ -12,6 +9,9 @@
     ],
     "overrides": [],
     "parserOptions": {
+        "project": [
+            "./tsconfig.json"
+        ],
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
