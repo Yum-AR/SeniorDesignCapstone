@@ -1,16 +1,12 @@
-/* This example requires Tailwind CSS v2.0+ */
-//import { AnnotationIcon, GlobeAltIcon, LightningBoltIcon, MailIcon, ScaleIcon } from '@heroicons/react/outline'
-import MailIcon from "../Icons/MailIcon"
-import LocationIcon from "../Icons/LocationIcon"
-import ARIcon from "../Icons/ARIcon"
-import QRIcon from "../Icons/QRIcon"
-import CameraIcon from "../Icons/CameraIcon"
-import DeviceIcon from "../Icons/DeviceIcon"
-import SceneComponent from "./SceneComponent"
-import 'babylonjs-loaders';
-import { useEffect } from "react"
-import { isSafari } from "@firebase/util"
-
+import React from 'react'
+import LocationIcon from '../Icons/LocationIcon'
+import ARIcon from '../Icons/ARIcon'
+import QRIcon from '../Icons/QRIcon'
+import CameraIcon from '../Icons/CameraIcon'
+import DeviceIcon from '../Icons/DeviceIcon'
+import SceneComponent from './SceneComponent'
+import 'babylonjs-loaders'
+import { isSafari } from '@firebase/util'
 
 const transferFeatures = [
   {
@@ -18,22 +14,22 @@ const transferFeatures = [
     name: 'Restaurants For You',
     description:
       'View restaurants in your area with ease. Get suggestions based on what foods you like. Explore new foods around you. Add dishes to your taste list to come back to later. ',
-    icon: <LocationIcon />,
+    icon: <LocationIcon />
   },
   {
     id: 2,
     name: 'See Before You Eat',
     description:
       'View dishes as 3D models and Augmented Reality. Understand and know exactly what you should be getting when you order your dish.',
-    icon: <ARIcon />,
+    icon: <ARIcon />
   },
   {
     id: 3,
     name: 'QR Code Menus',
     description:
       'View menus utilizing QR Codes. Experience a true augmented reality experience with ease, no app download required. Though we do have one ;) ',
-    icon: <QRIcon />,
-  },
+    icon: <QRIcon />
+  }
 ]
 
 const communicationFeatures = [
@@ -42,53 +38,45 @@ const communicationFeatures = [
     name: 'Turn Dishes into 3D Models',
     description:
       'Bring your food to life by digitizing your menu using our scanning feature. Turn your phone into a photogrammetry device, capturing every detail of your dish.',
-    icon: <CameraIcon />,
+    icon: <CameraIcon />
   },
   {
     id: 2,
     name: 'Multiple Mediums of Access',
     description:
       'View Yummr on various platforms, from our web app, iOS app, scanning a QR code - to viewing the menu. ',
-    icon: <DeviceIcon />,
-  },
+    icon: <DeviceIcon />
+  }
 ]
 
-export default function Features() {
-  let box;
-
-  const onSceneReady = (scene) => {
+const Features: React.FC = () => {
+  const onSceneReady = (scene: any): void => {
     // This creates and positions a free camera (non-mesh)
-    var camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 2.7, new BABYLON.Vector3(0, 0, 0), scene);
-
+    const camera = new BABYLON.ArcRotateCamera('camera', -Math.PI / 2, Math.PI / 2.5, 2.7, new BABYLON.Vector3(0, 0, 0), scene)
 
     camera.lowerRadiusLimit = 2.7
     camera.upperRadiusLimit = 2.7
     // This targets the camera to scene origin
-    camera.setTarget(BABYLON.Vector3.Zero());
+    camera.setTarget(BABYLON.Vector3.Zero())
 
-    const canvas = scene.getEngine().getRenderingCanvas();
-    BABYLON.SceneLoader.ShowLoadingScreen = false;
+    const canvas = scene.getEngine().getRenderingCanvas()
+    BABYLON.SceneLoader.ShowLoadingScreen = false
     // This attaches the camera to the canvas
-    camera.attachControl(canvas, true);
+    camera.attachControl(canvas, true)
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    //var light = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(0, -1, 0), scene);
-    //var light2 = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(-1, 1, 1), scene);
-    //var light3 = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(1, 1, -1), scene);
-    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+    const light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(0, 1, 0), scene)
 
     // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 0.7;
+    light.intensity = 0.7
     // Our built-in 'box' shape.
-    box = BABYLON.SceneLoader.Append('https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/restaurants%2FRaivis_Restaurant%2F', 'salmon.glb?alt=media&token=f136b924-b16a-43ba-b625-072524ef188c', scene)
-    //box = BABYLON.MeshBuilder.CreateBox('box', { size: 2 }, scene)  
+    BABYLON.SceneLoader.Append('https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/restaurants%2FRaivis_Restaurant%2F', 'salmon.glb?alt=media&token=f136b924-b16a-43ba-b625-072524ef188c', scene)
+    // box = BABYLON.MeshBuilder.CreateBox('box', { size: 2 }, scene)
 
     // Move the box upward 1/2 its height
 
     // Our built-in 'ground' shape.
-  };
-
-  let safari = isSafari()
+  }
 
   return (
     <>
@@ -151,11 +139,11 @@ export default function Features() {
                 ))}
               </dl>
             </div>
-            {/*<div className="flex justify-end max-h-[100px]">
+            {/* <div className="flex justify-end max-h-[100px]">
             <a rel='ar' href='https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/restaurants%2FRaivis_Restaurant%2Fsalmon.usdz?alt=media&token=48863435-3eea-46a8-baa3-5d088489c18e'>
               click me
             </a>
-              </div>*/}
+              </div> */}
             <div className="mt-10 -mx-4 flex justify-center relative lg:mt-0" aria-hidden="true">
               <SceneComponent className='outline-none inline min-h-[100%]' antialias onSceneReady={onSceneReady} id="my-canvas" />
               <menu className="absolute max-w-[25%] max-h-[25%] right-0 top-0">
@@ -254,3 +242,5 @@ export default function Features() {
     </>
   )
 }
+
+export default Features
