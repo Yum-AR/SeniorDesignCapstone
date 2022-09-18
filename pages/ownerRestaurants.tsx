@@ -1,12 +1,8 @@
-import React from 'react'
-import OwnerDashboardSidebar from './ownerdashboard'
+import React from 'react';
+import OwnerDashboardSidebar from './OwnerDashboard';
 
-const OwnerRestaurants: React.FC<void> = () => {
-  return (
-        <>
-            <OwnerDashboardSidebar />
-        </>
-  )
-}
-
-export default OwnerRestaurants
+const OwnerRestaurants: React.FC<void> = () =>
+  <>
+    <OwnerDashboardSidebar />
+  </>;
+export default OwnerRestaurants;
