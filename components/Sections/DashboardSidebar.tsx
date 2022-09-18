@@ -1,40 +1,23 @@
-import { Fragment, useState } from 'react'
+
+import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import DataTable from 'react-data-table-component'
 import {
-  CalendarIcon,
-  HomeIcon,
-  MapIcon,
   MenuIcon,
-  SearchCircleIcon,
-  SpeakerphoneIcon,
-  UserGroupIcon,
-  XIcon,
+  XIcon
 } from '@heroicons/react/outline'
 
 import { navigationSidebar } from '../reused_variables/variables'
 import DashboardTable from './DashboardTable'
 
-export default function Sidebar() {
+const DashboardSideBar: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [dashboard, setDashboard] = useState(true)
-  const [restaurants, setRestaurants] = useState(false)
-  const [statistics, setStatistics] = useState(false)
 
-  function classNames(...classes) {
+  function classNames (...classes: string[]): string {
     return classes.filter(Boolean).join(' ')
   }
   return (
 
     <>
-      {/*
-          This example requires updating your template:
-  
-          ```
-          <html class="h-full bg-white">
-          <body class="h-full overflow-hidden">
-          ```
-        */}
       <div className="h-full flex">
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 flex z-40 lg:hidden" onClose={setSidebarOpen}>
@@ -94,7 +77,6 @@ export default function Sidebar() {
                           key={item.name}
                           href={item.href}
                           className={classNames(
-                            console.log(item),
                             item.current
                               ? 'bg-gray-100 text-gray-900'
                               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
@@ -194,3 +176,4 @@ export default function Sidebar() {
     </>
   )
 }
+export default DashboardSideBar
