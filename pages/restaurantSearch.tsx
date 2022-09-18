@@ -1,42 +1,42 @@
-import React, { Fragment, useState, useEffect } from 'react'
-import NavBar from '../components/Nav/NavBar'
-import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
-import XIcon from '../components/Icons/XIcon'
-import { FilterIcon, MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid'
-import SearchCards from '../components/Functionality/SearchCards'
-import { sortOptions, filters } from '../components/reused_variables/searchFilterConstants'
-import { db } from '../firebase/clientApp'
-import { collection, QueryDocumentSnapshot, DocumentData, query, where, getDocs } from '@firebase/firestore'
+import React, { Fragment, useEffect, useState } from 'react';
+import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
+import { FilterIcon, MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid';
+import { collection, DocumentData, getDocs, query, QueryDocumentSnapshot, where } from '@firebase/firestore';
+import NavBar from '../components/Nav/NavBar';
+import XIcon from '../components/Icons/XIcon';
+import SearchCards from '../components/Functionality/SearchCards';
+import { filters, sortOptions } from '../components/reused_variables/searchFilterConstants';
+import { db } from '../firebase/clientApp';
 
-function classNames (...classes: string[]): string {
-  return classes.filter(Boolean).join(' ')
+function classNames(...classes: string[]): string {
+  return classes.filter(Boolean).join(` `);
 }
 
-const restaurantSearch: React.FC = () => {
-  const [restaurantArray, setRestaurantArray] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([])
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+const RestaurantSearch: React.FC = () => {
+  const [ restaurantArray, setRestaurantArray ] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([]);
+  const [ mobileFiltersOpen, setMobileFiltersOpen ] = useState(false);
 
-  const restaurantCollectionReference = collection(db, 'Restaurant')
+  const restaurantCollectionReference = collection(db, `Restaurant`);
 
   const fetchData = async (): Promise<any> => {
-    let data: any
-    const restaurantCollectionQuery = query(restaurantCollectionReference, where('isApproved', '==', true))
+    let data: any;
+    const restaurantCollectionQuery = query(restaurantCollectionReference, where(`isApproved`, `==`, true));
     await getDocs(restaurantCollectionQuery)
       .then((querySnapshot) => {
-        const newRestaurantDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        data = newRestaurantDataArray
-        return data
+        const newRestaurantDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        data = newRestaurantDataArray;
+        return data;
       })
       .catch((err) => {
-        console.error('Failed to get data', err)
-      })
-    setRestaurantArray(data)
-    return data
-  }
+        console.error(`Failed to get data`, err);
+      });
+    setRestaurantArray(data);
+    return data;
+  };
 
   useEffect(() => {
-    fetchData().catch((e: Error) => console.error(e))
-  }, [])
+    fetchData().catch((e: Error) => console.error(e));
+  }, []);
 
   return (
     <div className="bg-white">
@@ -66,7 +66,8 @@ const restaurantSearch: React.FC = () => {
               leaveFrom="translate-x-0"
               leaveTo="translate-x-full"
             >
-              <div className="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-12 flex flex-col overflow-y-auto">
+              <div className="ml-auto relative max-w-xs w-full h-full
+               bg-white shadow-xl py-4 pb-12 flex flex-col overflow-y-auto">
                 <div className="px-4 flex items-center justify-between">
                   <h2 className="text-lg font-medium text-gray-900">Filters</h2>
                   <button
@@ -83,27 +84,26 @@ const restaurantSearch: React.FC = () => {
                 <form className="mt-4 border-t border-gray-200">
                   <h3 className="sr-only">Categories</h3>
 
-                  {filters.map((section) => (
+                  {filters.map((section) =>
                     <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
-                      {({ open }) => (
+                      {({ open }) =>
                         <>
                           <h3 className="-mx-2 -my-3 flow-root">
-                            <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
+                            <Disclosure.Button className="px-2 py-3 bg-white w-full flex
+                            items-center justify-between text-gray-400 hover:text-gray-500">
                               <span className="font-medium text-gray-900">{section.name}</span>
                               <span className="ml-6 flex items-center">
                                 {open
-                                  ? (
-                                  <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
-                                    )
-                                  : (
-                                  <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
-                                    )}
+                                  ? <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
+
+                                  : <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
+                                }
                               </span>
                             </Disclosure.Button>
                           </h3>
                           <Disclosure.Panel className="pt-6">
                             <div className="space-y-6">
-                              {section.options.map((option, optionIdx) => (
+                              {section.options.map((option, optionIdx) =>
                                 <div key={option.value} className="flex items-center">
                                   <input
                                     id={`filter-mobile-${section.id}-${optionIdx}`}
@@ -119,14 +119,12 @@ const restaurantSearch: React.FC = () => {
                                   >
                                     {option.label}
                                   </label>
-                                </div>
-                              ))}
+                                </div>)}
                             </div>
                           </Disclosure.Panel>
                         </>
-                      )}
-                    </Disclosure>
-                  ))}
+                      }
+                    </Disclosure>)}
                 </form>
               </div>
             </Transition.Child>
@@ -149,24 +147,24 @@ const restaurantSearch: React.FC = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md
+                   shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
-                      {sortOptions.map((option) => (
+                      {sortOptions.map((option) =>
                         <Menu.Item key={option.name}>
-                          {({ active }) => (
+                          {({ active }) =>
                             <a
                               href={option.href}
                               className={classNames(
-                                option.current ? 'font-medium text-gray-900' : 'text-gray-500',
-                                active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm'
+                                option.current ? `font-medium text-gray-900` : `text-gray-500`,
+                                active ? `bg-gray-100` : ``,
+                                `block px-4 py-2 text-sm`,
                               )}
                             >
                               {option.name}
                             </a>
-                          )}
-                        </Menu.Item>
-                      ))}
+                          }
+                        </Menu.Item>)}
                     </div>
                   </Menu.Items>
                 </Transition>
@@ -192,27 +190,26 @@ const restaurantSearch: React.FC = () => {
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
 
-                {filters.map((section) => (
+                {filters.map((section) =>
                   <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
-                    {({ open }) => (
+                    {({ open }) =>
                       <>
                         <h3 className="-my-3 flow-root">
-                          <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
+                          <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm
+                           text-gray-400 hover:text-gray-500">
                             <span className="font-medium text-gray-900">{section.name}</span>
                             <span className="ml-6 flex items-center">
                               {open
-                                ? (
-                                <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
-                                  )
-                                : (
-                                <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
-                                  )}
+                                ? <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
+
+                                : <PlusSmIcon className="h-5 w-5" aria-hidden="true" />
+                              }
                             </span>
                           </Disclosure.Button>
                         </h3>
                         <Disclosure.Panel className="pt-6">
                           <div className="space-y-4">
-                            {section.options.map((option, optionIdx) => (
+                            {section.options.map((option, optionIdx) =>
                               <div key={option.value} className="flex items-center">
                                 <input
                                   id={`filter-${section.id}-${optionIdx}`}
@@ -228,20 +225,19 @@ const restaurantSearch: React.FC = () => {
                                 >
                                   {option.label}
                                 </label>
-                              </div>
-                            ))}
+                              </div>)}
                           </div>
                         </Disclosure.Panel>
                       </>
-                    )}
-                  </Disclosure>
-                ))}
+                    }
+                  </Disclosure>)}
               </form>
 
               {/* Product grid */}
               <div className="lg:col-span-3">
                 {/* Replace with your content */}
-                {restaurantArray !== undefined ? <SearchCards restaurantArray={restaurantArray} /> : <h1>{'No Restaurants'}</h1>}
+                {restaurantArray !== undefined ? <SearchCards restaurantArray={restaurantArray} />
+                  : <h1>{`No Restaurants`}</h1>}
                 {/* /End replace */}
               </div>
             </div>
@@ -249,6 +245,6 @@ const restaurantSearch: React.FC = () => {
         </main>
       </div>
     </div>
-  )
-}
-export default restaurantSearch
+  );
+};
+export default RestaurantSearch;
