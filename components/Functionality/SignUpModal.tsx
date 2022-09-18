@@ -1,53 +1,51 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState, useCallback } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/outline'
-import ClosedLockIcon from '../Icons/ClosedLockIcon'
-import XIcon from '../Icons/XIcon'
-import { useRouter } from "next/router"
-import { useAuth } from "../../firebase/AuthContext"
-import { collection, query, where, updateDoc, addDoc } from 'firebase/firestore'
-
+import { Fragment, useCallback, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { CheckIcon } from '@heroicons/react/outline';
+import { useRouter } from 'next/router';
+import { addDoc, collection, query, updateDoc, where } from 'firebase/firestore';
+import ClosedLockIcon from '../Icons/ClosedLockIcon';
+import XIcon from '../Icons/XIcon';
+import { useAuth } from '../../firebase/AuthContext';
 
 const SignUpModal = ({ showSignUpModal, setSignUpModal, setAuthModal }) => {
-  const [error, setError] = useState('')
-  const { register, currentUser } = useAuth()
-  const Router = useRouter()
+  const [ error, setError ] = useState(``);
+  const { registerUser, currentUser } = useAuth();
+  const Router = useRouter();
 
   const signupHandler = useCallback(
     async (event) => {
-      console.log("signupHandler called")
-      event.preventDefault()
-      const { email, password } = event.target.elements
+      console.log(`signupHandler called`);
+      event.preventDefault();
+      const { email, password } = event.target.elements;
       try {
-        setError('')
-        let user = await register(email.value, password.value)
+        setError(``);
+        const user = await registerUser(email.value, password.value);
 
-        let newUser = await addDoc(collection(db, 'users'), {
+        const newUser = await addDoc(collection(db, `users`), {
           email: email.value,
-          favoriteID: "",
+          favoriteID: ``,
           password: password.value,
-          isOwner: false
-        })
-        newUser.id
+          isOwner: false,
+        });
+        newUser.id;
         await updateDoc(newUser, {
-          userID: user.user.uid
-        })
+          userID: user.user.uid,
+        });
 
-
-        Router.push("index.html")
-        setSignUpModal(false)
+        Router.push(`index.html`);
+        setSignUpModal(false);
       } catch (error) {
-        setError('Failed to create an account')
+        setError(`Failed to create an account`);
       }
     },
-    [Router]
-  )
+    [ Router ],
+  );
 
   const showLoginForm = () => {
-    setAuthModal(true)
-    setSignUpModal(false)
-  }
+    setAuthModal(true);
+    setSignUpModal(false);
+  };
   return (
     <Transition.Root show={showSignUpModal} as={Fragment}>
       <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" open={showSignUpModal} onClose={setSignUpModal}>
@@ -131,7 +129,7 @@ const SignUpModal = ({ showSignUpModal, setSignUpModal, setAuthModal }) => {
 
                           <button
                             type="submit"
-                            //onSubmit={signupHandler}
+                            // onSubmit={signupHandler}
                             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#FF6F43] hover:bg-[#e27d18] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF6F43]"
                           >
                             <ClosedLockIcon />Create Account
@@ -139,7 +137,7 @@ const SignUpModal = ({ showSignUpModal, setSignUpModal, setAuthModal }) => {
                         </div>
                       </form>
 
-                      {/*<div className="mt-6">
+                      {/* <div className="mt-6">
                         <div className="relative">
                           <div className="absolute inset-0 flex items-center">
                             <div className="w-full border-t border-gray-300" />
@@ -212,7 +210,7 @@ const SignUpModal = ({ showSignUpModal, setSignUpModal, setAuthModal }) => {
         </div>
       </Dialog>
     </Transition.Root>
-  )
-}
+  );
+};
 
-export default SignUpModal
+export default SignUpModal;
