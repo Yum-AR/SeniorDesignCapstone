@@ -1,25 +1,6 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
-*/
-
-import FeaturedSection from "./FeaturedPhoto"
-import { collection, QueryDocumentSnapshot, DocumentData, query, doc, where, limit, getDocs, updateDoc } from "@firebase/firestore";
-import { db } from "../../firebase/clientApp"
-import { useState, useEffect } from "react";
-
+import { collection, query, where, getDocs } from '@firebase/firestore'
+import { db } from '../../firebase/clientApp'
+import React, { useEffect } from 'react'
 
 const restaurants = [
   {
@@ -27,66 +8,48 @@ const restaurants = [
     name: 'McDonalds',
     href: '#',
     imageSrc: 'https://images.unsplash.com/photo-1552895638-f7fe08d2f7d5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80',
-    imageAlt: 'McDonalds Burger',
+    imageAlt: 'McDonalds Burger'
   },
   {
     id: 2,
     name: 'Rosas Diner',
     href: '#',
     imageSrc: 'https://images.unsplash.com/photo-1502301103665-0b95cc738daf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80',
-    imageAlt: 'Olive drab green insulated bottle with flared screw lid and flat top.',
+    imageAlt: 'Olive drab green insulated bottle with flared screw lid and flat top.'
   },
   {
     id: 3,
     name: 'First Wok',
     href: '#',
     imageSrc: 'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-    imageAlt: 'Person using a pen to cross a task off a productivity paper card.',
+    imageAlt: 'Person using a pen to cross a task off a productivity paper card.'
   },
   {
     id: 4,
     name: 'The Experience',
     href: '#',
     imageSrc: 'https://images.unsplash.com/photo-1529543544282-ea669407fca3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-    imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.',
-  },
+    imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.'
+  }
   // More products...
 ]
 
-export default function PhotoOptions() {
-
+const PhotoOptions: React.FC = () => {
   const menuItemsCollectionReference = collection(db, 'MenuItems')
-  const [menuItems, setMenuItems] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
-
-  //const [currentPage, setCurrentPage] = useState(1)
-  //const [postsPerPage] = useState(10)
-
-  //const indexOfLastPost = currentPage * postsPerPage
-  //const indexOfFirstPost = indexOfLastPost - postsPerPage
-  //const currentPosts = menuItems.slice(indexOfFirstPost, indexOfLastPost)
-  //const paginate = (pageNumber) => setCurrentPage(pageNumber)
-  //const paginateFront = () => setCurrentPage(currentPage + 1);
-  //const paginateBack = () => setCurrentPage(currentPage - 1);
-
 
   useEffect(() => {
-
     const menuItemsQuery = query(menuItemsCollectionReference, where('modelApproval', '==', null))
 
     getDocs(menuItemsQuery)
       .then((querySnapshot) => {
         const newMenuDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
 
-        setMenuItems(newMenuDataArray);
-
+        setMenuItems(newMenuDataArray)
       })
       .catch((err) => {
-        console.error("Failed to get data", err)
+        console.error('Failed to get data', err)
       })
-    //console.log(menuItems)
-  }, []);
-
-
+  }, [])
 
   return (
     <div className="bg-white">
@@ -111,7 +74,6 @@ export default function PhotoOptions() {
                       {product.name}
                     </a>
                   </h3>
-                  <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                 </div>
               </div>
             </div>
@@ -121,3 +83,4 @@ export default function PhotoOptions() {
     </div>
   )
 }
+export default PhotoOptions
