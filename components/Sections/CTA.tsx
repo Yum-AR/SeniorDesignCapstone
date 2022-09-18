@@ -1,46 +1,31 @@
-import MailIcon from "../Icons/MailIcon";
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from '@headlessui/react'
-import WaitlistSuccessModal from "../Functionality/WaitlistSuccessModal";
-//<WaitlistSuccessModal open={open} setOpen={setOpen}/>
-/* This example requires Tailwind CSS v2.0+ */
+import React, { SyntheticEvent, useState } from 'react'
 
-export default function CTA() {
-  //Defining variables to pass as data 
+const CTA: React.FC = () => {
+  // Defining variables to pass as data
   const [email, setEmail] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [restaurantName, setrestaurantName] = useState('')
   const [phone, setPhone] = useState('')
   const [submitted, setSubmitted] = useState(false)
-  const [open, setOpen] = useState(false)
 
-  try {
-    //function that triggers on submit button press. sends data to api/emailSignups
-    var handleSubmit = (e) => {
-      e.preventDefault()
-      console.log('sending')
+  const handleSubmit = async (e: SyntheticEvent): Promise<void> => {
+    e.preventDefault()
 
-      let data = { email, firstName, lastName, restaurantName, phone, submitted }
-      fetch('/api/emailSignups', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      }).then((res) => {
-        console.log('response recieved')
-        if (res.status === 200) {
-          console.log('Response succeeded')
-          //resetting email variable to an empty string after successful response
-          setEmail('')
-          setSubmitted(true)
-
-        }
-      })
+    const data = { email, firstName, lastName, restaurantName, phone, submitted }
+    const res = await fetch('/api/emailSignups', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    if (res.status === 200) {
+      setEmail('')
+      setSubmitted(true)
     }
-  } catch (err) { console.log(err) }
+  }
   return (
     <div className="relative bg-white">
       <div className="lg:absolute lg:inset-0">
@@ -135,7 +120,8 @@ export default function CTA() {
               <div className="text-right sm:col-span-2">
                 <button
                   type="submit"
-                  onClick={(e) => { handleSubmit(e) }}
+                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                  onClick={async (e) => await handleSubmit(e)}
                   className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#FF6F43] hover:bg-[#ee8c2a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-grape-500"
                 >
                   Submit
@@ -148,12 +134,4 @@ export default function CTA() {
     </div>
   )
 }
-
-
-
-
-
-
-
-
-
+export default CTA
