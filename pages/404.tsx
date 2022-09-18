@@ -1,18 +1,11 @@
-import HomeNav from "../components/Nav/HomeNav"
-import Footer from "../components/Sections/Footer"
+import React from 'react'
+import HomeNav from '../components/Nav/HomeNav'
+import Footer from '../components/Sections/Footer'
 
 /* This example requires Tailwind CSS v2.0+ */
-export default function Example() {
-    return (
+const Example: React.FC = () => {
+  return (
       <>
-        {/*
-          This example requires updating your template:
-  
-          ```
-          <html class="h-full">
-          <body class="h-full">
-          ```
-        */}
         <HomeNav />
         <div className="bg-white min-h-full px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
           <div className="max-w-max mx-auto">
@@ -43,6 +36,6 @@ export default function Example() {
         </div>
         <Footer />
       </>
-    )
-  }
-  
+  )
+}
+export default Example
