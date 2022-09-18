@@ -1,10 +1,8 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Popover, Transition } from '@headlessui/react'
-//import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import MenuIcon from '../Icons/MenuIcon'
 import XIcon from '../Icons/XIcon'
-import SearchBar from '../Functionality/SearchBar'
 import ProfileDropdown from '../Functionality/ProfileDropdown'
 import AuthModal from '../Functionality/AuthModal'
 import SignUpModal from '../Functionality/SignUpModal'
@@ -12,15 +10,14 @@ import { useAuth } from '../../firebase/AuthContext'
 
 const navigation = [
   { name: 'Find a Restaurant', href: '/restaurantSearch.html' },
-  { name: 'Download App', href: 'https://testflight.apple.com/join/TgQkBRsg' },
+  { name: 'Download App', href: 'https://testflight.apple.com/join/TgQkBRsg' }
 ]
 
-export default function HomeNav() {
-  const [showAuthModal, setAuthModal] = useState(false);
-  const [showSignUpModal, setSignUpModal] = useState(false);
+const HomeNav: React.FC = () => {
+  const [showAuthModal, setAuthModal] = useState(false)
+  const [showSignUpModal, setSignUpModal] = useState(false)
 
   const { currentUser } = useAuth()
-
 
   return (
     <>
@@ -108,12 +105,10 @@ export default function HomeNav() {
               </div>
               <div className="md:flex">
                 {
-                  currentUser ?
-                    (
+                  currentUser
+                    ? (
                       <ProfileDropdown className="object-right-top"></ProfileDropdown>)
-                    :
-
-                    (<div className="hidden md:flex md:items-center md:justify-end md:inset-y-0 md:right-0 space-x-6">
+                    : (<div className="hidden md:flex md:items-center md:justify-end md:inset-y-0 md:right-0 space-x-6">
                       <span className="inline-flex rounded-md shadow">
                         <button
                           type="button"
@@ -135,7 +130,7 @@ export default function HomeNav() {
                         <SignUpModal showSignUpModal={showSignUpModal} setSignUpModal={setSignUpModal} setAuthModal={setAuthModal} />
                       </span>
                     </div>
-                    )
+                      )
                 }
               </div>
             </nav>
@@ -181,15 +176,15 @@ export default function HomeNav() {
                     </a>
                   ))}
                 </div>
-                {currentUser ? <></> :
-                  <button
+                {currentUser
+                  ? <></>
+                  : <button
                     onClick={() => setAuthModal(true)}
                     className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
                   >
                     Log in
                   </button>
                 }
-
 
               </div>
             </Popover.Panel>
@@ -199,5 +194,4 @@ export default function HomeNav() {
     </>
   )
 }
-
-
+export default HomeNav

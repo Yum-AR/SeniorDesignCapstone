@@ -1,45 +1,25 @@
-/*
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import NavBar from '../components/Nav/NavBar'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
-// import { XIcon } from '@heroicons/react/outline'
 import XIcon from '../components/Icons/XIcon'
-import { ChevronDownIcon, FilterIcon, MinusSmIcon, PlusSmIcon, ViewGridIcon } from '@heroicons/react/solid'
+import { FilterIcon, MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid'
 import SearchCards from '../components/Functionality/SearchCards'
 import { sortOptions, filters } from '../components/reused_variables/searchFilterConstants'
-
-// firebase imports
 import { db } from '../firebase/clientApp'
-import { getDoc } from 'firebase/firestore'
-import { collection, QueryDocumentSnapshot, DocumentData, query, where, limit, getDocs } from '@firebase/firestore'
+import { collection, QueryDocumentSnapshot, DocumentData, query, where, getDocs } from '@firebase/firestore'
 
-function classNames (...classes) {
+function classNames (...classes: string[]): string {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function restaurantSearch () {
+const restaurantSearch: React.FC = () => {
   const [restaurantArray, setRestaurantArray] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([])
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   const restaurantCollectionReference = collection(db, 'Restaurant')
 
-  const fetchData = async () => {
-    let data
+  const fetchData = async (): Promise<any> => {
+    let data: any
     const restaurantCollectionQuery = query(restaurantCollectionReference, where('isApproved', '==', true))
     await getDocs(restaurantCollectionQuery)
       .then((querySnapshot) => {
@@ -55,10 +35,7 @@ export default function restaurantSearch () {
   }
 
   useEffect(() => {
-    fetchData()
-      .then((data) => {
-
-      })
+    fetchData().catch((e: Error) => console.error(e))
   }, [])
 
   return (
@@ -264,7 +241,7 @@ export default function restaurantSearch () {
               {/* Product grid */}
               <div className="lg:col-span-3">
                 {/* Replace with your content */}
-                {restaurantArray !== undefined ? <SearchCards restaurantArray={restaurantArray} /> : <h1>'No Restaurants'</h1>}
+                {restaurantArray !== undefined ? <SearchCards restaurantArray={restaurantArray} /> : <h1>{'No Restaurants'}</h1>}
                 {/* /End replace */}
               </div>
             </div>
@@ -274,3 +251,4 @@ export default function restaurantSearch () {
     </div>
   )
 }
+export default restaurantSearch

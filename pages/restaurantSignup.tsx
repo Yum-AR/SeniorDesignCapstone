@@ -1,167 +1,163 @@
-import React from "react";
+import React, { SyntheticEvent } from 'react'
 import Uppy from '@uppy/core'
 import { Dashboard, useUppy } from '@uppy/react'
 import Tus from '@uppy/tus'
 import '@uppy/core/dist/style.css'
 import '@uppy/Dashboard/dist/style.css'
-import { useAuth } from "../firebase/AuthContext";
-import Router from "next/router";
-import { doc, setDoc, collection, addDoc, updateDoc } from 'firebase/firestore'
-import { db } from "../firebase/clientApp";
+import { useAuth } from '../firebase/AuthContext'
+import Router from 'next/router'
+import { collection, addDoc, updateDoc } from 'firebase/firestore'
+import { db } from '../firebase/clientApp'
+import { useForm } from 'react-hook-form'
 
-export default function restaurantSignup() {
-    const { register } = useAuth()
-    const formSubmit = async (event) => {
-        try {
-            event.preventDefault()
-            let fullName = document.getElementById('fullName')
-            let userEmail = document.getElementById('email')
-            let userPassword = document.getElementById('password')
-            let user = await register(userEmail.value, userPassword.value)
+const restaurantSignup: React.FC = () => {
+  const { registerUser } = useAuth()
+  const { register, getValues } = useForm()
 
-            //Restaurant Details
-            let businessName = document.getElementById('businessName')
-            let restaurantStreet = document.getElementById('restaurantAddressStreet')
-            let restaurantCity = document.getElementById('restaurantAddressCity')
-            let restaurantState = document.getElementById('restaurantAddressState')
-            let restaurantZip = document.getElementById('restaurantAddressZip')
-            let restaurantAddress = {
-                street: restaurantStreet.value,
-                city: restaurantCity.value,
-                state: restaurantState.value,
-                zip: restaurantZip.value
-            }
-            let restaurantDescription = document.getElementById('restaurantDescription')
-            let websiteURL = document.getElementById('websiteURL')
-            let phoneNumber = document.getElementById('phoneNumber')
-            let pricing = document.querySelector('input[name="notification-method"]:checked')
+  const formSubmit = async (event: SyntheticEvent, values: any): Promise<void> => {
+    try {
+      console.log(values)
+      event.preventDefault()
+      const fullName = document.getElementById('fullName')
+      const userEmail = document.getElementById('email')
+      const userPassword = document.getElementById('password')
+      const user = await registerUser(userEmail?.value, userPassword?.value)
 
-            //Cuisine Fields
-            let cuisines = document.getElementById('cuisines')
-            const foodValue = []
-            for (let i = 0; i < ((cuisines.children.length) - 2); i++) {
-                foodValue.push(cuisines.children[i].firstChild.checked)
-            }
+      // Restaurant Details
+      const businessName = document.getElementById('businessName')
+      const restaurantStreet = document.getElementById('restaurantAddressStreet')
+      const restaurantCity = document.getElementById('restaurantAddressCity')
+      const restaurantState = document.getElementById('restaurantAddressState')
+      const restaurantZip = document.getElementById('restaurantAddressZip')
+      const restaurantAddress = {
+        street?: restaurantStreet.value,
+        city: restaurantCity.value,
+        state: restaurantState.value,
+        zip: restaurantZip.value
+      }
+      const restaurantDescription = document.getElementById('restaurantDescription')
+      const websiteURL = document.getElementById('websiteURL')
+      const phoneNumber = document.getElementById('phoneNumber')
+      const pricing = document.querySelector('input[name="notification-method"]:checked')
 
-            const cuisineOptions = {
-                american: foodValue[0],
-                bakery: foodValue[1],
-                chinese: foodValue[2],
-                fastFood: foodValue[3],
-                french: foodValue[4],
-                indian: foodValue[5],
-                italian: foodValue[6],
-                japanese: foodValue[7],
-                mexican: foodValue[8],
-                pizza: foodValue[9],
-                seafood: foodValue[10],
-                steak: foodValue[11],
-                thai: foodValue[12]
-            }
+      // Cuisine Fields
+      const cuisines = document.getElementById('cuisines')
+      const foodValue = []
+      for (let i = 0; i < ((cuisines.children.length) - 2); i++) {
+        foodValue.push(cuisines.children[i].firstChild.checked)
+      }
 
-            //dietary fields
-            let dietary = document.getElementById('dietaryOptions')
-            const dietaryValues = []
-            for (let i = 0; i < dietary.children.length; i++) {
-                dietaryValues.push(dietary.children[i].firstChild.checked)
-            }
+      const cuisineOptions = {
+        american: foodValue[0],
+        bakery: foodValue[1],
+        chinese: foodValue[2],
+        fastFood: foodValue[3],
+        french: foodValue[4],
+        indian: foodValue[5],
+        italian: foodValue[6],
+        japanese: foodValue[7],
+        mexican: foodValue[8],
+        pizza: foodValue[9],
+        seafood: foodValue[10],
+        steak: foodValue[11],
+        thai: foodValue[12]
+      }
 
-            const dietaryOptions = {
-                glutenFree: dietaryValues[0],
-                halal: dietaryValues[1],
-                kosher: dietaryValues[2],
-                vegan: dietaryValues[3],
-                vegetarian: dietaryValues[4]
-            }
+      // dietary fields
+      const dietary = document.getElementById('dietaryOptions')
+      const dietaryValues = []
+      for (let i = 0; i < dietary.children.length; i++) {
+        dietaryValues.push(dietary.children[i].firstChild.checked)
+      }
 
-            let newUser = await addDoc(collection(db, 'users'), {
-                email: userEmail.value,
-                favoriteID: "",
-                fullName: fullName.value,
-                password: userPassword.value,
-                isOwner: true
+      const dietaryOptions = {
+        glutenFree: dietaryValues[0],
+        halal: dietaryValues[1],
+        kosher: dietaryValues[2],
+        vegan: dietaryValues[3],
+        vegetarian: dietaryValues[4]
+      }
 
-            })
-            newUser.id
+      const newUser = await addDoc(collection(db, 'users'), {
+        email: userEmail.value,
+        favoriteID: '',
+        fullName: fullName.value,
+        password: userPassword.value,
+        isOwner: true
 
-            await updateDoc(newUser, {
-                userID: user.user.uid
-            })
+      })
+      newUser.id
 
+      await updateDoc(newUser, {
+        userID: user.user.uid
+      })
 
-            let newRestaurant = await addDoc(collection(db, 'Restaurant'), {
-                isApproved: null,
-                menuHeaderArray: [],
-                restaurantInformation: {
-                    hours: {
-                        Monday: "",
-                        Tuesday: "",
-                        Wednesday: "",
-                        Thursday: "",
-                        Friday: "",
-                        Saturday: "",
-                        Sunday: ""
-                    },
-                    phoneNumber: phoneNumber.value,
-                    restaurantAddress: restaurantAddress,
-                    restaurantName: businessName.value,
-                    restaurantDescription: restaurantDescription.value,
-                    websiteURL: websiteURL.value
-                },
-                restaurantSettings: {
-                    dietary: dietaryOptions,
-                    restaurantGenre: cuisineOptions,
-                    priceRange: pricing.value,
-                    restaurantHeaderImageURL: null,
-                    restaurantThumbnailImageURL: null
-                },
-                users: []
-            })
-            newRestaurant.id
+      const newRestaurant = await addDoc(collection(db, 'Restaurant'), {
+        isApproved: null,
+        menuHeaderArray: [],
+        restaurantInformation: {
+          hours: {
+            Monday: '',
+            Tuesday: '',
+            Wednesday: '',
+            Thursday: '',
+            Friday: '',
+            Saturday: '',
+            Sunday: ''
+          },
+          phoneNumber: phoneNumber.value,
+          restaurantAddress,
+          restaurantName: businessName.value,
+          restaurantDescription: restaurantDescription.value,
+          websiteURL: websiteURL.value
+        },
+        restaurantSettings: {
+          dietary: dietaryOptions,
+          restaurantGenre: cuisineOptions,
+          priceRange: pricing.value,
+          restaurantHeaderImageURL: null,
+          restaurantThumbnailImageURL: null
+        },
+        users: []
+      })
+      newRestaurant.id
 
+      const newOwner = await addDoc(collection(db, 'Owners'), {
+        email: userEmail.value,
+        fullName: fullName.value,
+        restaurantID: newRestaurant.id,
+        userID: user.user.uid
+      })
+      newOwner.id
 
-
-            let newOwner = await addDoc(collection(db, 'Owners'), {
-                email: userEmail.value,
-                fullName: fullName.value,
-                restaurantID: newRestaurant.id,
-                userID: user.user.uid
-            })
-            newOwner.id
-
-            await updateDoc(newRestaurant, {
-                restaurantID: newRestaurant.id,
-                ownerID: newOwner.id
-            })
-            await updateDoc(newOwner, {
-                ownerID: newOwner.id
-            })
-
-        } catch (e) {
-            console.log(e)
-        }
-        alert('Restaurant application has been sent for review')
-        setTimeout(() => {
-            Router.push('/')
-        }, 400)
-
+      await updateDoc(newRestaurant, {
+        restaurantID: newRestaurant.id,
+        ownerID: newOwner.id
+      })
+      await updateDoc(newOwner, {
+        ownerID: newOwner.id
+      })
+    } catch (e) {
+      console.log(e)
     }
+    alert('Restaurant application has been sent for review')
+    setTimeout(() => {
+      Router.push('/')
+    }, 400)
+  }
 
+  const uppy = useUppy(() => {
+    return new Uppy({
+      restrictions: {
+        maxFileSize: 100000000, // ONE MEGABYTE FILE LIMIT
+        maxNumberOfFiles: 200,
+        minNumberOfFiles: 2,
+        allowedFileTypes: ['image/*']
+      }
+    }).use(Tus, { endpoint: 'https://tusd.tusdemo.net/files' })
+  })
 
-
-
-    const uppy = useUppy(() => {
-        return new Uppy({
-            restrictions: {
-                maxFileSize: 100000000, //ONE MEGABYTE FILE LIMIT
-                maxNumberOfFiles: 200,
-                minNumberOfFiles: 2,
-                allowedFileTypes: ['image/*']
-            }
-        }).use(Tus, { endpoint: 'https://tusd.tusdemo.net/files' })
-    })
-
-    return (
+  return (
         <form className="space-y-8 divide-y divide-gray-200 m-10">
             <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
                 <div>
@@ -183,6 +179,7 @@ export default function restaurantSignup() {
                                 </label>
                                 <div className="mt-1">
                                     <input
+                                        {...register('fullName')}
                                         type="text"
                                         name="username"
                                         id="fullName"
@@ -197,6 +194,7 @@ export default function restaurantSignup() {
                                 </label>
                                 <div className="mt-1">
                                     <input
+                                        {...register('email')}
                                         type="email"
                                         name="email"
                                         id="email"
@@ -210,6 +208,7 @@ export default function restaurantSignup() {
                                 </label>
                                 <div className="mt-1">
                                     <input
+                                    {...register('password')}
                                         type="password"
                                         name="password"
                                         id="password"
@@ -231,6 +230,7 @@ export default function restaurantSignup() {
                                 </label>
                                 <div className="mt-1">
                                     <input
+                                        {...register('businessName')}
                                         type="text"
                                         name="businessName"
                                         id="businessName"
@@ -246,6 +246,7 @@ export default function restaurantSignup() {
                                 <div className="mt-1">
                                     <label htmlFor="restaurantAddressStreet" className="block text-sm font-medium mt-4 text-gray-700">Street</label>
                                     <input
+                                        {...register('restuarantAddressStreet')}
                                         type="address"
                                         name="restaurantAddressStreet"
                                         id="restaurantAddressStreet"
@@ -253,6 +254,7 @@ export default function restaurantSignup() {
                                     />
                                     <label htmlFor="restaurantAddressCity" className="block text-sm font-medium mt-4 text-gray-700">City</label>
                                     <input
+                                        {...register('restaurantAddressCity')}
                                         type="address"
                                         name="restaurantAddressCity"
                                         id="restaurantAddressCity"
@@ -260,6 +262,7 @@ export default function restaurantSignup() {
                                     />
                                     <label htmlFor="restaurantAddressState" className="block text-sm font-medium mt-4 text-gray-700">State</label>
                                     <input
+                                        {...register('restaurantAddressState')}
                                         type="address"
                                         name="restaurantAddressState"
                                         id="restaurantAddressState"
@@ -267,6 +270,7 @@ export default function restaurantSignup() {
                                     />
                                     <label htmlFor="restaurantAddressZip" className="block text-sm font-medium mt-4 text-gray-700">Zip</label>
                                     <input
+                                    {...register('restaurantAdressZip')}
                                         type="address"
                                         name="restaurantAddressZip"
                                         id="restaurantAddressZip"
@@ -279,18 +283,16 @@ export default function restaurantSignup() {
                                     A brief description of your restaurant
                                 </label>
                                 <div className="mt-1">
-                                    <textarea className="min-w-full bg-gray-50" name="restaurantDescription" cols='15' rows='15' id="restaurantDescription">
-
-                                    </textarea>
+                                    <textarea {...register('restaurantDescription')} className="min-w-full bg-gray-50" name="restaurantDescription" cols={15} rows={15} id="restaurantDescription"/>
 
                                 </div>
-
 
                                 <label htmlFor="phoneNumber" className="block text-sm font-medium mt-4 text-gray-700">
                                     Phone Number
                                 </label>
                                 <div className="mt-1">
                                     <input
+                                    {...register('phoneNumber')}
                                         type="text"
                                         name="phoneNumber"
                                         id="phoneNumber"
@@ -311,6 +313,7 @@ export default function restaurantSignup() {
 
                                                 <div>
                                                     <input
+                                                    {...register('$')}
                                                         id="$"
                                                         name="notification-method"
                                                         type="radio"
@@ -324,6 +327,7 @@ export default function restaurantSignup() {
 
                                                 <div>
                                                     <input
+                                                    {...register('$$')}
                                                         id="$$"
                                                         name="notification-method"
                                                         type="radio"
@@ -337,6 +341,7 @@ export default function restaurantSignup() {
 
                                                 <div>
                                                     <input
+                                                    {...register('$$$')}
                                                         id="$$$"
                                                         name="notification-method"
                                                         type="radio"
@@ -359,6 +364,7 @@ export default function restaurantSignup() {
                                 <div id="cuisines" className="flex flex-col mt-1">
                                     <div>
                                         <input
+                                        {...register('american')}
                                             type="checkbox"
                                             name="american"
                                             id="american"
@@ -369,6 +375,7 @@ export default function restaurantSignup() {
 
                                     <div>
                                         <input
+                                            {...register('bakery')}
                                             type="checkbox"
                                             name="bakery"
                                             id="bakery"
@@ -379,6 +386,7 @@ export default function restaurantSignup() {
 
                                     <div>
                                         <input
+                                         {...register('chinese')}
                                             type="checkbox"
                                             name="chinese"
                                             id="chinese"
@@ -389,6 +397,7 @@ export default function restaurantSignup() {
 
                                     <div>
                                         <input
+                                         {...register('fastFood')}
                                             type="checkbox"
                                             name="fastFood"
                                             id="fastFood"
@@ -399,6 +408,7 @@ export default function restaurantSignup() {
 
                                     <div>
                                         <input
+                                         {...register('french')}
                                             type="checkbox"
                                             name="french"
                                             id="french"
@@ -407,9 +417,9 @@ export default function restaurantSignup() {
                                         <label htmlFor="french">French</label>
                                     </div>
 
-
                                     <div>
                                         <input
+                                         {...register('indian')}
                                             type="checkbox"
                                             name="indian"
                                             id="indian"
@@ -420,6 +430,7 @@ export default function restaurantSignup() {
 
                                     <div>
                                         <input
+                                         {...register('italian')}
                                             type="checkbox"
                                             name="italian"
                                             id="italian"
@@ -428,9 +439,9 @@ export default function restaurantSignup() {
                                         <label htmlFor="italian">Italian</label>
                                     </div>
 
-
                                     <div>
                                         <input
+                                         {...register('japanese')}
                                             type="checkbox"
                                             name="japanese"
                                             id="japanese"
@@ -441,6 +452,7 @@ export default function restaurantSignup() {
 
                                     <div>
                                         <input
+                                         {...register('mexican')}
                                             type="checkbox"
                                             name="mexican"
                                             id="mexican"
@@ -451,6 +463,7 @@ export default function restaurantSignup() {
 
                                     <div>
                                         <input
+                                         {...register('pizza')}
                                             type="checkbox"
                                             name="pizza"
                                             id="pizza"
@@ -461,6 +474,7 @@ export default function restaurantSignup() {
 
                                     <div>
                                         <input
+                                         {...register('seafood')}
                                             type="checkbox"
                                             name="seafood"
                                             id="seafood"
@@ -471,6 +485,7 @@ export default function restaurantSignup() {
 
                                     <div>
                                         <input
+                                         {...register('steak')}
                                             type="checkbox"
                                             name="steak"
                                             id="steak"
@@ -481,6 +496,7 @@ export default function restaurantSignup() {
 
                                     <div>
                                         <input
+                                         {...register('thai')}
                                             type="checkbox"
                                             name="thai"
                                             id="thai"
@@ -495,6 +511,7 @@ export default function restaurantSignup() {
                                     <div id="dietaryOptions" className="flex flex-col mt-1">
                                         <div>
                                             <input
+                                             {...register('glutenFree')}
                                                 type="checkbox"
                                                 name="glutenFree"
                                                 id="glutenFree"
@@ -505,6 +522,7 @@ export default function restaurantSignup() {
 
                                         <div>
                                             <input
+                                            {...register('halal')}
                                                 type="checkbox"
                                                 name="halal"
                                                 id="halal"
@@ -515,6 +533,7 @@ export default function restaurantSignup() {
 
                                         <div>
                                             <input
+                                             {...register('kosher')}
                                                 type="checkbox"
                                                 name="kosher"
                                                 id="kosher"
@@ -525,6 +544,7 @@ export default function restaurantSignup() {
 
                                         <div>
                                             <input
+                                             {...register('vegan')}
                                                 type="checkbox"
                                                 name="vegan"
                                                 id="vegan"
@@ -535,6 +555,7 @@ export default function restaurantSignup() {
 
                                         <div>
                                             <input
+                                             {...register('vegetarian')}
                                                 type="checkbox"
                                                 name="vegetarian"
                                                 id="vegetarian"
@@ -552,6 +573,7 @@ export default function restaurantSignup() {
                                 </label>
                                 <div className="mt-1">
                                     <input
+                                     {...register('websiteURL')}
                                         type="text"
                                         name="websiteURL"
                                         id="websiteURL"
@@ -566,7 +588,6 @@ export default function restaurantSignup() {
 
                     </div>
 
-
                 </div>
 
                 <div className="pt-5">
@@ -579,7 +600,7 @@ export default function restaurantSignup() {
                         </a>
                         <button
                             type="submit"
-                            onClick={(e) => { formSubmit(e) }}
+                            onClick={(e) => { formSubmit(e, values); const values = getValues() }}
                             className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Save
@@ -588,5 +609,7 @@ export default function restaurantSignup() {
                 </div>
             </div>
         </form>
-    );
+  )
 }
+
+export default restaurantSignup
