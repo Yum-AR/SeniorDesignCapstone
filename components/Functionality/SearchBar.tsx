@@ -1,21 +1,4 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-//import { SearchIcon } from '@heroicons/react/solid'
-import SearchIcon from "../Icons/SearchIcon"
+import SearchIcon from '../Icons/SearchIcon';
 
 export default function SearchBar() {
   return (
@@ -29,15 +12,20 @@ export default function SearchBar() {
         type="email"
         autoComplete="email"
         required
-        className="w-full border-white px-11 py-3 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white rounded-md"
+        className="w-full border-white px-11 py-3 placeholder-gray-500
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white rounded-md"
         placeholder="Search Nearby Restaurants"
       />
       <button
         type="submit"
-        className=" flex items-center md:self-auto self-end justify-center px-1 py-1 md:px-5 md:py-3 border border-transparent shadow text-base font-medium rounded-md text-white bg-[#FF6F43] hover:bg-[#ee8c2a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white md:mt-0 mt-3 sm:ml-3 md:w-auto w-[30%] sm:flex-shrink-0"
+        className=" flex items-center md:self-auto self-end justify-center px-1
+        py-1 md:px-5 md:py-3 border border-transparent shadow text-base font-medium
+        rounded-md text-white bg-[#FF6F43] hover:bg-[#ee8c2a] focus:outline-none
+        focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700
+        focus:ring-white md:mt-0 mt-3 sm:ml-3 md:w-auto w-[30%] sm:flex-shrink-0"
       >
         Search
       </button>
     </div>
-  )
+  );
 }

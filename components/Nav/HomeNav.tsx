@@ -79,9 +79,11 @@ const HomeNav: React.FC = () => {
                   <a href="/">
                     <span className="sr-only">Yummr</span>
                     <Image
+                      width="100%"
+                      height="100%"
                       className="h-8 w-auto sm:h-10"
-                      src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com
-                      /o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
+                      // eslint-disable-next-line max-len
+                      src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
                       alt=""
 
                     />
@@ -165,8 +167,10 @@ const HomeNav: React.FC = () => {
                   <div>
                     <Image
                       className="h-8 w-auto"
-                      src="https://firebasestorage.googleapis.com
-                      /v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
+                      width="100%"
+                      height="100%"
+                      // eslint-disable-next-line max-len
+                      src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
                       alt="Yummr"
                     />
                   </div>

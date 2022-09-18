@@ -1,10 +1,10 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/outline'
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { CheckIcon } from '@heroicons/react/outline';
 
-export default function WaitlistSuccessModal({open, setOpen }) {
-  const [open, setOpen] = useState(true)
+export default function WaitlistSuccessModal({ open, setOpen }) {
+  const [ open, setOpen ] = useState(true);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -35,7 +35,9 @@ export default function WaitlistSuccessModal({open, setOpen }) {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+            <div className="inline-block align-bottom bg-white rounded-lg
+            px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all
+             sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
               <div>
                 <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
                   <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
@@ -46,7 +48,9 @@ export default function WaitlistSuccessModal({open, setOpen }) {
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      We're excited that you joined our waitlist.  We will reachout to you to let you know when you can add your restaurant and bring your menu to life!
+                      We're excited that you joined our waitlist.
+                      We will reach out to you to let you know when you
+                       can add your restaurant and bring your menu to life!
                     </p>
                   </div>
                 </div>
@@ -54,10 +58,12 @@ export default function WaitlistSuccessModal({open, setOpen }) {
               <div className="mt-5 sm:mt-6">
                 <button
                   type="button"
-                  className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                  className="inline-flex justify-center w-full rounded-md border border-transparent
+                  shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
                   onClick={() => setOpen(false)}
                 >
-                  Go back to home page 
+                  Go back to home page
                 </button>
               </div>
             </div>
@@ -65,5 +71,5 @@ export default function WaitlistSuccessModal({open, setOpen }) {
         </div>
       </Dialog>
     </Transition.Root>
-  )
+  );
 }
