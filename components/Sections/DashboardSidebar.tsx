@@ -1,40 +1,23 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import DataTable from 'react-data-table-component'
+
+import React, { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 import {
-  CalendarIcon,
-  HomeIcon,
-  MapIcon,
   MenuIcon,
-  SearchCircleIcon,
-  SpeakerphoneIcon,
-  UserGroupIcon,
   XIcon,
-} from '@heroicons/react/outline'
+} from '@heroicons/react/outline';
+import Image from 'next/image';
+import { navigationSidebar } from '../reused_variables/variables';
+import DashboardTable from './DashboardTable';
 
-import { navigationSidebar } from '../reused_variables/variables'
-import DashboardTable from './DashboardTable'
+const DashboardSideBar: React.FC = () => {
+  const [ sidebarOpen, setSidebarOpen ] = useState(false);
 
-export default function Sidebar() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [dashboard, setDashboard] = useState(true)
-  const [restaurants, setRestaurants] = useState(false)
-  const [statistics, setStatistics] = useState(false)
-
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+  function classNames(...classes: string[]): string {
+    return classes.filter(Boolean).join(` `);
   }
   return (
 
     <>
-      {/*
-          This example requires updating your template:
-  
-          ```
-          <html class="h-full bg-white">
-          <body class="h-full overflow-hidden">
-          ```
-        */}
       <div className="h-full flex">
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 flex z-40 lg:hidden" onClose={setSidebarOpen}>
@@ -71,7 +54,10 @@ export default function Sidebar() {
                   <div className="absolute top-0 right-0 -mr-12 pt-2">
                     <button
                       type="button"
-                      className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                      className="ml-1 flex
+                      items-center justify-center
+                      h-10 w-10 rounded-full focus:outline-none
+                      focus:ring-2 focus:ring-inset focus:ring-white"
                       onClick={() => setSidebarOpen(false)}
                     >
                       <span className="sr-only">Close sidebar</span>
@@ -81,36 +67,35 @@ export default function Sidebar() {
                 </Transition.Child>
                 <div className="flex-1 h-full pt-5 pb-4 overflow-y-auto">
                   <div className="flex-shrink-0 flex items-center px-4">
-                    <img
+                    <Image
                       className="h-8 w-auto"
+                      // eslint-disable-next-line max-len
                       src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
                       alt="Yummr"
                     />
                   </div>
                   <nav aria-label="Sidebar" className="mt-5">
                     <div className="px-2 space-y-1">
-                      {navigationSidebar.map((item) => (
+                      {navigationSidebar.map((item) =>
                         <a
                           key={item.name}
                           href={item.href}
                           className={classNames(
-                            console.log(item),
                             item.current
-                              ? 'bg-gray-100 text-gray-900'
-                              : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                            'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                              ? `bg-gray-100 text-gray-900`
+                              : `text-gray-600 hover:bg-gray-50 hover:text-gray-900`,
+                            `group flex items-center px-2 py-2 text-base font-medium rounded-md`,
                           )}
                         >
                           <item.icon
                             className={classNames(
-                              item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                              'mr-4 h-6 w-6'
+                              item.current ? `text-gray-500` : `text-gray-400 group-hover:text-gray-500`,
+                              `mr-4 h-6 w-6`,
                             )}
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
-                      ))}
+                        </a>)}
                     </div>
                   </nav>
                 </div>
@@ -131,27 +116,26 @@ export default function Sidebar() {
 
                 <nav className="mt-5 flex-1" aria-label="Sidebar">
                   <div className="px-2 space-y-1">
-                    {navigationSidebar.map((item) => (
+                    {navigationSidebar.map((item) =>
                       <a
                         key={item.name}
                         href={item.href}
                         className={classNames(
                           item.current
-                            ? 'bg-gray-200 text-gray-900'
-                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                          'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                            ? `bg-gray-200 text-gray-900`
+                            : `text-gray-600 hover:bg-gray-50 hover:text-gray-900`,
+                          `group flex items-center px-2 py-2 text-sm font-medium rounded-md`,
                         )}
                       >
                         <item.icon
                           className={classNames(
-                            item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                            'mr-3 h-6 w-6'
+                            item.current ? `text-gray-500` : `text-gray-400 group-hover:text-gray-500`,
+                            `mr-3 h-6 w-6`,
                           )}
                           aria-hidden="true"
                         />
                         {item.name}
-                      </a>
-                    ))}
+                      </a>)}
                   </div>
                 </nav>
               </div>
@@ -162,8 +146,9 @@ export default function Sidebar() {
           <div className="hidden">
             <div className="flex items-center justify-between bg-gray-50 border-b border-gray-200 px-4 py-1.5">
               <div>
-                <img
+                <Image
                   className="h-8 w-auto"
+                  // eslint-disable-next-line max-len
                   src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
                   alt="Yummr"
                 />
@@ -171,7 +156,8 @@ export default function Sidebar() {
               <div>
                 <button
                   type="button"
-                  className="-mr-3 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900"
+                  className="-mr-3 h-12 w-12 inline-flex
+                  items-center justify-center rounded-md text-gray-500 hover:text-gray-900"
                   onClick={() => setSidebarOpen(true)}
                 >
                   <span className="sr-only">Open sidebar</span>
@@ -192,5 +178,6 @@ export default function Sidebar() {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
+export default DashboardSideBar;

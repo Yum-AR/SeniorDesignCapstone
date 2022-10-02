@@ -1,26 +1,24 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState } from 'react'
-import { Popover, Transition } from '@headlessui/react'
-//import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import MenuIcon from '../Icons/MenuIcon'
-import XIcon from '../Icons/XIcon'
-import SearchBar from '../Functionality/SearchBar'
-import ProfileDropdown from '../Functionality/ProfileDropdown'
-import AuthModal from '../Functionality/AuthModal'
-import SignUpModal from '../Functionality/SignUpModal'
-import { useAuth } from '../../firebase/AuthContext'
+import React, { Fragment, useState } from 'react';
+import { Popover, Transition } from '@headlessui/react';
+import Image from 'next/image';
+import MenuIcon from '../Icons/MenuIcon';
+import XIcon from '../Icons/XIcon';
+import ProfileDropdown from '../Functionality/ProfileDropdown';
+import AuthModal from '../Functionality/AuthModal';
+import SignUpModal from '../Functionality/SignUpModal';
+import { useAuth } from '../../firebase/AuthContext';
 
 const navigation = [
-  { name: 'Find a Restaurant', href: '/restaurantSearch.html' },
-  { name: 'Download App', href: 'https://testflight.apple.com/join/TgQkBRsg' },
-]
+  { name: `Find a Restaurant`, href: `/restaurantSearch.html` },
+  { name: `Download App`, href: `https://testflight.apple.com/join/TgQkBRsg` },
+];
 
-export default function HomeNav() {
-  const [showAuthModal, setAuthModal] = useState(false);
-  const [showSignUpModal, setSignUpModal] = useState(false);
+const HomeNav: React.FC = () => {
+  const [ showAuthModal, setAuthModal ] = useState(false);
+  const [ showSignUpModal, setSignUpModal ] = useState(false);
 
-  const { currentUser } = useAuth()
-
+  const { currentUser } = useAuth();
 
   return (
     <>
@@ -48,7 +46,8 @@ export default function HomeNav() {
             <rect width={404} height={784} fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)" />
           </svg>
           <svg
-            className="absolute left-full transform -translate-y-3/4 -translate-x-1/4 md:-translate-y-1/2 lg:-translate-x-1/2"
+            className="absolute left-full transform -translate-y-3/4
+            -translate-x-1/4 md:-translate-y-1/2 lg:-translate-x-1/2"
             width={404}
             height={784}
             fill="none"
@@ -79,15 +78,20 @@ export default function HomeNav() {
                 <div className="flex items-center justify-between w-full md:w-auto">
                   <a href="/">
                     <span className="sr-only">Yummr</span>
-                    <img
+                    <Image
+                      width="100%"
+                      height="100%"
                       className="h-8 w-auto sm:h-10"
+                      // eslint-disable-next-line max-len
                       src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
                       alt=""
 
                     />
                   </a>
                   <div className="-mr-2 flex items-center md:hidden">
-                    <Popover.Button className="bg-gray-50 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                    <Popover.Button className="bg-gray-50 rounded-md p-2 inline-flex items-center
+                    justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none
+                    focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                       <span className="sr-only">Open main menu</span>
 
                       <MenuIcon />
@@ -96,46 +100,50 @@ export default function HomeNav() {
                 </div>
               </div>
               <div className="hidden md:flex">
-                <div className="absolute drop-shadow-2xl inset-0 top-10 right-10 pt-2 flex items-center" aria-hidden="true">
+                <div className="absolute drop-shadow-2xl inset-0 top-10 right-10 pt-2 flex items-center"
+                  aria-hidden="true">
                   <div className="w-[4%] border-t opacity-[0.5] border-gray-300" />
                 </div>
-                {navigation.map((item) => (
+                {navigation.map((item) =>
                   <a key={item.name} href={item.href} className="font-medium text-gray-500 hover:text-gray-900 px-4">
 
                     {item.name}
-                  </a>
-                ))}
+                  </a>)}
               </div>
               <div className="md:flex">
                 {
-                  currentUser ?
-                    (
-                      <ProfileDropdown className="object-right-top"></ProfileDropdown>)
-                    :
-
-                    (<div className="hidden md:flex md:items-center md:justify-end md:inset-y-0 md:right-0 space-x-6">
-                      <span className="inline-flex rounded-md shadow">
-                        <button
-                          type="button"
-                          className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-[#FF6F43] bg-white hover:bg-gray-50"
-                          onClick={() => setAuthModal(true)}
-                        >
+                  currentUser
+                    ? <ProfileDropdown className="object-right-top"></ProfileDropdown>
+                    : <div className="hidden md:flex md:items-center md:justify-end md:inset-y-0 md:right-0 space-x-6">
+                        <span className="inline-flex rounded-md shadow">
+                          <button
+                            type="button"
+                            className="inline-flex items-center px-4 py-2 border
+                            border-transparent text-base font-medium rounded-md text-[#FF6F43]
+                             bg-white hover:bg-gray-50"
+                            onClick={() => setAuthModal(true)}
+                          >
                           Log in
-                        </button>
-                        <AuthModal showAuthModal={showAuthModal} setAuthModal={setAuthModal} setSignUpModal={setSignUpModal} />
-                      </span>
-                      <span className="inline-flex rounded-md shadow">
-                        <button
-                          type="button"
-                          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#FF6F43] hover:bg-[#ee8c2a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          onClick={() => setSignUpModal(true)}
-                        >
+                          </button>
+                          <AuthModal showAuthModal={showAuthModal} setAuthModal={setAuthModal}
+                            setSignUpModal={setSignUpModal} />
+                        </span>
+                        <span className="inline-flex rounded-md shadow">
+                          <button
+                            type="button"
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm
+                            font-medium rounded-md shadow-sm text-white bg-[#FF6F43]
+                             hover:bg-[#ee8c2a] focus:outline-none
+                            focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={() => setSignUpModal(true)}
+                          >
                           Sign Up
-                        </button>
-                        <SignUpModal showSignUpModal={showSignUpModal} setSignUpModal={setSignUpModal} setAuthModal={setAuthModal} />
-                      </span>
-                    </div>
-                    )
+                          </button>
+                          <SignUpModal showSignUpModal={showSignUpModal} setSignUpModal={setSignUpModal}
+                            setAuthModal={setAuthModal} />
+                        </span>
+                      </div>
+
                 }
               </div>
             </nav>
@@ -157,39 +165,46 @@ export default function HomeNav() {
               <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
                 <div className="px-5 pt-4 flex items-center justify-between">
                   <div>
-                    <img
+                    <Image
                       className="h-8 w-auto"
+                      width="100%"
+                      height="100%"
+                      // eslint-disable-next-line max-len
                       src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
                       alt="Yummr"
                     />
                   </div>
                   <div className="-mr-2">
-                    <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                    <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center
+                    justify-center text-gray-400
+                     hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2
+                     focus:ring-inset focus:ring-indigo-500">
                       <span className="sr-only">Close menu</span>
                       <XIcon />
                     </Popover.Button>
                   </div>
                 </div>
                 <div className="px-2 pt-2 pb-3">
-                  {navigation.map((item) => (
+                  {navigation.map((item) =>
                     <a
                       key={item.name}
                       href={item.href}
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                      className="block px-3 py-2 rounded-md text-base font-medium
+                       text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                     >
                       {item.name}
-                    </a>
-                  ))}
+                    </a>)}
                 </div>
-                {currentUser ? <></> :
-                  <button
-                    onClick={() => setAuthModal(true)}
-                    className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
-                  >
+                {currentUser
+                  ? <></>
+                  : <button
+                      onClick={() => setAuthModal(true)}
+                      className="block w-full px-5 py-3 text-center font-medium
+                       text-indigo-600 bg-gray-50 hover:bg-gray-100"
+                    >
                     Log in
-                  </button>
+                    </button>
                 }
-
 
               </div>
             </Popover.Panel>
@@ -197,7 +212,6 @@ export default function HomeNav() {
         </Popover>
       </div >
     </>
-  )
-}
-
-
+  );
+};
+export default HomeNav;

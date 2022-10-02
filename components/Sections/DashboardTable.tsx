@@ -1,148 +1,141 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { useState, useEffect, Fragment } from "react";
-import { Dialog, Transition } from '@headlessui/react'
-import { CheckIcon, XIcon, DownloadIcon } from '@heroicons/react/outline'
-import { db } from "../../firebase/clientApp"
-import DataTable from "react-data-table-component";
-//import Pagination from "../Functionality/Pagination";
-import { collection, QueryDocumentSnapshot, DocumentData, query, doc, where, limit, getDocs, updateDoc } from "@firebase/firestore";
+import { Fragment, useEffect, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { CheckIcon, DownloadIcon, XIcon } from '@heroicons/react/outline';
+import DataTable from 'react-data-table-component';
+// import Pagination from "../Functionality/Pagination";
+import { collection, doc, DocumentData, getDocs, query, QueryDocumentSnapshot, updateDoc, where } from '@firebase/firestore';
+import { db } from '../../firebase/clientApp';
 
-export default function DashboardTable() {
-  const [open, setOpen] = useState(false)
-  const [approvalType, setApprovalType] = useState()
+const DashboardTable: React.FC = () => {
+  const [ open, setOpen ] = useState(false);
+  const [ approvalType, setApprovalType ] = useState();
   const approvalModel = async row => {
-    let updateRow = doc(db, 'MenuItems', row.id)
+    const updateRow = doc(db, `MenuItems`, row.id);
     await updateDoc(updateRow, {
-      modelApproval: true
+      modelApproval: true,
     }).then(() => {
-      setApprovalType('approve')
-      setOpen(true)
+      setApprovalType(`approve`);
+      setOpen(true);
       setTimeout(() => {
-        setOpen(false)
-      }, 500)
-      fetchData()
-    })
-  }
+        setOpen(false);
+      }, 500);
+      fetchData();
+    });
+  };
   const denyModel = async (row) => {
-    let updateRow = doc(db, 'MenuItems', row.id)
+    const updateRow = doc(db, `MenuItems`, row.id);
     await updateDoc(updateRow, {
-      modelApproval: false
+      modelApproval: false,
     }).then(() => {
-      setApprovalType('deny')
-      setOpen(true)
+      setApprovalType(`deny`);
+      setOpen(true);
       setTimeout(() => {
-        setOpen(false)
-      }, 500)
-      fetchData()
-    })
-  }
-
+        setOpen(false);
+      }, 500);
+      fetchData();
+    });
+  };
 
   const columns = [
     {
-      name: 'image',
-      cell: (row) => {
-        return (
-          <>
-            {row.thumbnailURL ? <img className="w-[50%] h-[50%]" src={row.thumbnailURL} /> : " no image"}
+      name: `image`,
+      cell: (row) =>
+        <>
+          {row.thumbnailURL ? <img className="w-[50%] h-[50%]" src={row.thumbnailURL} /> : ` no image`}
 
-          </>
-        )
-      }
+        </>,
+
     },
     {
-      name: 'created date',
+      name: `created date`,
       selector: (row) => {
         if (row.createdDate) {
-          return row.createdDate.toDate().toGMTString()
-        } else {
-          return 'no date'
+          return row.createdDate.toDate().toGMTString();
         }
+        return `no date`;
+
       },
-      sortable: true
+      sortable: true,
     },
     {
-      name: 'Name',
+      name: `Name`,
       selector: row => row.menuItem,
-      sortable: true
+      sortable: true,
     },
     {
-      name: 'Restaurant ID',
+      name: `Restaurant ID`,
       selector: row => row.id,
-      sortable: true
+      sortable: true,
     },
     {
-      name: 'download',
-      cell: (row) => {
-        return (
-          <button onClick={(e) => { e.preventDefault(); location.href = row.modelURL }} data-tag="allowRowEvents" className='  text-white font-bold py-2 px-4 rounded' id={row.id}><span><DownloadIcon className="h-6 w-6 text-blue-600 hover:text-blue-800" aria-hidden="true" /></span></button>
-        )
-      }
+      name: `download`,
+      cell: (row) =>
+        <button
+          onClick={(e) => { e.preventDefault(); location.href = row.modelURL; }}
+          data-tag="allowRowEvents"
+          className='text-white font-bold py-2 px-4 rounded'
+          id={row.id}><span><DownloadIcon
+            className="h-6 w-6 text-blue-600 hover:text-blue-800"
+            aria-hidden="true" /></span>
+        </button>,
+
     },
     {
-      name: 'Approval',
-      cell: (row) => {
-        return (<div className="flex">
+      name: `Approval`,
+      cell: (row) => <div className="flex">
 
-
-          <button onClick={(e) => { e.preventDefault(); approvalModel(row) }} data-tag="allowRowEvents" className='  mr-3 text-white font-bold py-2 px-4 rounded' id={row.id}><span><div className=" flex items-center justify-center h-12 w-12 rounded-full bg-green-100 hover:bg-green-200">
-            <CheckIcon className="h-6 w-6 text-green-600 " aria-hidden="true" />
-          </div></span></button>
-          <button onClick={(e) => { e.preventDefault(); denyModel(row) }} data-tag="allowRowEvents" className=' mr-3 text-white font-bold py-2 px-4 rounded' id={row.id}><span><div className=" flex items-center justify-center h-12 w-12 rounded-full bg-red-100 hover:bg-red-200">
+        <button onClick={(e) => { e.preventDefault(); approvalModel(row); }}
+          data-tag="allowRowEvents"
+          className='  mr-3 text-white font-bold py-2 px-4 rounded'
+          id={row.id}><span>
+            <div className=" flex items-center justify-center h-12 w-12 rounded-full bg-green-100 hover:bg-green-200">
+              <CheckIcon className="h-6 w-6 text-green-600 " aria-hidden="true" />
+            </div></span></button>
+        <button onClick={(e) => { e.preventDefault(); denyModel(row); }}
+          data-tag="allowRowEvents"
+          className=' mr-3 text-white font-bold py-2 px-4 rounded'
+          id={row.id}><span><div
+            className=" flex items-center justify-center h-12 w-12 rounded-full bg-red-100 hover:bg-red-200">
             <XIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
           </div></span></button>
 
-        </div>)
-      }
+      </div>,
     },
 
-  ]
+  ];
 
+  const menuItemsCollectionReference = collection(db, `MenuItems`);
+  const [ menuItems, setMenuItems ] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([]);
 
-  const menuItemsCollectionReference = collection(db, 'MenuItems')
-  const [menuItems, setMenuItems] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
-
-  //const [currentPage, setCurrentPage] = useState(1)
-  //const [postsPerPage] = useState(10)
-
-  //const indexOfLastPost = currentPage * postsPerPage
-  //const indexOfFirstPost = indexOfLastPost - postsPerPage
-  //const currentPosts = menuItems.slice(indexOfFirstPost, indexOfLastPost)
-  //const paginate = (pageNumber) => setCurrentPage(pageNumber)
-  //const paginateFront = () => setCurrentPage(currentPage + 1);
-  //const paginateBack = () => setCurrentPage(currentPage - 1);
   const fetchData = async () => {
-    const menuItemsQuery = query(menuItemsCollectionReference, where('modelApproval', '==', null))
+    const menuItemsQuery = query(menuItemsCollectionReference, where(`modelApproval`, `==`, null));
 
     getDocs(menuItemsQuery)
       .then((querySnapshot) => {
-        const newMenuDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        const newMenuDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
         setMenuItems(newMenuDataArray);
 
       })
       .catch((err) => {
-        console.error("Failed to get data", err)
-      })
-  }
-  const MINUTE_MS = 30000
+        console.error(`Failed to get data`, err);
+      });
+  };
+  const MINUTE_MS = 30000;
   useEffect(() => {
 
-    fetchData()
-    const body = document.querySelector('body')
-    body.classList.add('overflow-hidden')
-    const pos = document.getElementsByClassName('.gJVjWL')
-    console.dir(pos)
+    fetchData().catch(e => console.error(e));
+    const body = document.querySelector(`body`);
+    body.classList.add(`overflow-hidden`);
+    const pos = document.getElementsByClassName(`.gJVjWL`);
     const interval = setInterval(() => {
-      fetchData()
-    }, MINUTE_MS)
-    return () => clearInterval(interval)
-    //console.log(menuItems)
+      fetchData().catch(e => console.error(e));
+    }, MINUTE_MS);
+    return () => clearInterval(interval);
+    // console.log(menuItems)
   }, []);
 
-
-
-  console.log(menuItems)
   return (
     <>
 
@@ -177,7 +170,9 @@ export default function DashboardTable() {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              {approvalType === 'approve' ? <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+              {approvalType === `approve` ? <div className="relative inline-block align-bottom
+               bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl
+               transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                 <div>
                   <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
                     <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
@@ -190,7 +185,9 @@ export default function DashboardTable() {
                     </div>
                   </div>
                 </div>
-              </div> : <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+              </div> : <div className="relative inline-block align-bottom
+               bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden
+               shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                 <div>
                   <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
                     <XIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
@@ -210,5 +207,5 @@ export default function DashboardTable() {
       </Transition.Root>
     </>
   );
-}
-
+};
+export default DashboardTable;

@@ -1,42 +1,37 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState, useCallback } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/outline'
-import XIcon from '../Icons/XIcon'
-import { useRouter } from "next/router"
-import SignUpModal from './SignUpModal'
-import Link from 'next/link'
-//signInWithApple
-import AuthContextProvider, { useAuth } from '../../firebase/AuthContext'
-import { auth } from "../../firebase/clientApp"
+import React, { Dispatch, Fragment, SyntheticEvent, useCallback } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { useRouter } from 'next/router';
+import XIcon from '../Icons/XIcon';
+import { useAuth } from '../../firebase/AuthContext';
 
+const AuthModal: React.FC<{showAuthModal: boolean;
+  setAuthModal: Dispatch<boolean>;
+  setSignUpModal: Dispatch<boolean>;
+}> = ({ showAuthModal, setAuthModal, setSignUpModal }) => {
 
-const AuthModal = ({ showAuthModal, setAuthModal, setSignUpModal }) => {
-
-  const { currentUser, login, signInWithGoogle, register, logout } = useAuth()
-  const Router = useRouter()
-  const [error, setError] = useState('')
+  const { login } = useAuth();
+  const Router = useRouter();
 
   const loginHandler = useCallback(
-    async (event) => {
-      event.preventDefault()
-      const { email, password } = event.target.elements
+    async (event: SyntheticEvent) => {
+      event.preventDefault();
+      const { email, password } = event.target.elements;
       try {
-        setError('')
-        await login(email.value, password.value)
-        Router.push("index.html")
-        setAuthModal(false)
+        await login(email.value, password.value);
+        await Router.push(`index.html`);
+        setAuthModal(false);
       } catch (error) {
-        console.log("error")
-        setError('Failed to create an account')
+        console.error(error);
+        setError(`Failed to create an account`);
       }
     },
-    [Router]
-  )
+    [ Router ],
+  );
 
   function switchAuthHandler() {
-    setAuthModal(false)
-    setSignUpModal(true)
+    setAuthModal(false);
+    setSignUpModal(true);
 
   }
 
@@ -69,11 +64,13 @@ const AuthModal = ({ showAuthModal, setAuthModal, setSignUpModal }) => {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left
+            overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
               <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                 <button
                   type="button"
-                  className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="bg-white rounded-md text-gray-400 hover:text-gray-500
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   onClick={() => setAuthModal(false)}
                 >
                   <span className="sr-only">Close</span>
@@ -81,7 +78,8 @@ const AuthModal = ({ showAuthModal, setAuthModal, setSignUpModal }) => {
                 </button>
               </div>
               <div>
-                <h1 className="text-center text-4xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl">
+                <h1 className="text-center text-4xl tracking-tight
+                font-extrabold text-gray-900 sm:text-4xl md:text-5xl">
                   Yummr
                 </h1>
                 <div className="mt-3 text-center sm:mt-5">
@@ -99,7 +97,9 @@ const AuthModal = ({ showAuthModal, setAuthModal, setSignUpModal }) => {
                               type="email"
                               autoComplete="email"
                               required
-                              className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                              className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md
+                              shadow-sm placeholder-gray-400
+                              focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                               placeholder="Email Address"
                             />
                           </div>
@@ -113,7 +113,10 @@ const AuthModal = ({ showAuthModal, setAuthModal, setSignUpModal }) => {
                               type="password"
                               autoComplete="current-password"
                               required
-                              className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                              className="appearance-none block w-full px-3 py-2 border
+                              border-gray-300 rounded-md shadow-sm
+                               placeholder-gray-400 focus:outline-none focus:ring-indigo-500
+                               focus:border-indigo-500 sm:text-sm"
                               placeholder="Password"
                             />
                           </div>
@@ -142,72 +145,17 @@ const AuthModal = ({ showAuthModal, setAuthModal, setSignUpModal }) => {
                         <div>
                           <button
                             type="submit"
-                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#FF6F43] hover:bg-[#e27d18] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF6F43]"
+                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md
+                             shadow-sm text-sm font-medium text-white bg-[#FF6F43] hover:bg-[#e27d18] focus:outline-none
+                             focus:ring-2 focus:ring-offset-2 focus:ring-[#FF6F43]"
                           >
                             Sign in
                           </button>
                         </div>
                       </form>
-
-                      {/*<div className="mt-6">
-                        <div className="relative">
-                          <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-300" />
-                          </div>
-                          <div className="relative flex justify-center text-sm">
-                            <span className="px-2 bg-white text-gray-500">Or continue with</span>
-                          </div>
-                        </div>
-
-                        <div className="mt-6 grid grid-cols-3 gap-3">
-                          <div>
-                            <a
-                              href="#"
-                              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                            //onClick={ signInWithGoogle() }
-                            >
-                              <span className="sr-only">Sign in with Google</span>
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M9 9a2 2 0 114 0 2 2 0 01-4 0z" />
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a4 4 0 00-3.446 6.032l-2.261 2.26a1 1 0 101.414 1.415l2.261-2.261A4 4 0 1011 5z" clipRule="evenodd" />
-                              </svg>
-
-                            </a>
-                          </div>
-
-                          <div>
-                            <a
-                              href="#"
-                              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                            >
-                              <span className="sr-only">Sign in with Facebook</span>
-                              <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                  fillRule="evenodd"
-                                  d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </a>
-                          </div>
-
-                          <div>
-                            <a
-                              href="#"
-                              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                            >
-                              <span className="sr-only">Sign in with Apple</span>
-
-                              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z" clipRule="evenodd" />
-                              </svg>
-
-                            </a>
-                          </div>
-                        </div>
-                    </div>*/}
                     </div>
-                    <div className="items-center text-center pt-3 text-md leading-6 text-gray-700">Need an account? <a onClick={switchAuthHandler} >Sign up here</a></div>
+                    <div className="items-center text-center pt-3 text-md leading-6 text-gray-700">
+                      Need an account? <a onClick={switchAuthHandler} >Sign up here</a></div>
                   </div>
                 </div>
               </div>
@@ -216,7 +164,7 @@ const AuthModal = ({ showAuthModal, setAuthModal, setSignUpModal }) => {
         </div>
       </Dialog >
     </Transition.Root >
-  )
-}
+  );
+};
 
-export default AuthModal
+export default AuthModal;

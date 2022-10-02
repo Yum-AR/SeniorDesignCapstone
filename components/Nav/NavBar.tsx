@@ -22,6 +22,7 @@ import { useAuth } from '../../firebase/AuthContext'
 import ProfileDropdown from '../Functionality/ProfileDropdown'
 import AuthModal from '../Functionality/AuthModal'
 import SignUpModal from '../Functionality/SignUpModal'
+import Link from 'next/link'
 
 const user = {
   name: 'Chelsea Hagon',
@@ -62,13 +63,12 @@ export default function NavBar() {
               <div className="relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-8">
                 <div className="flex md:absolute md:left-0 md:inset-y-0 lg:static xl:col-span-2">
                   <div className="flex-shrink-0 flex items-center">
-                    <a href="/">
+                    <Link href="/">
                       <img
                         className="block h-8 w-auto"
                         src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
                         alt="Yummr Logo"
                       />
-                    </a>
                   </div>
                 </div>
                 {<div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
@@ -84,7 +84,9 @@ export default function NavBar() {
                         <input
                           id="search"
                           name="search"
-                          className="block w-full invisible bg-white border border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full invisible bg-white border border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm
+                           placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1
+                            focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                           placeholder="Search"
                           type="search"
                         />
@@ -94,7 +96,8 @@ export default function NavBar() {
                 </div>}
                 <div className="flex items-center md:absolute md:right-0 md:inset-y-0 lg:hidden">
                   {/* Mobile menu button */}
-                  <Popover.Button className="-mx-2 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                  <Popover.Button className="-mx-2 rounded-md p-2 inline-flex items-center justify-center text-gray-400
+                   hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                     <span className="sr-only">Open menu</span>
                     {open ? (
                       <XIcon className="block h-6 w-6" aria-hidden="true" />
@@ -118,7 +121,8 @@ export default function NavBar() {
                             <span className=" rounded-md shadow">
                               <button
                                 type="button"
-                                className="items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-[#FF6F43] bg-white hover:bg-gray-50"
+                                className="items-center px-4 py-2 border border-transparent text-base
+                                 font-medium rounded-md text-[#FF6F43] bg-white hover:bg-gray-50"
                                 onClick={() => setAuthModal(true)}
                               >
                                 Log in
@@ -128,7 +132,10 @@ export default function NavBar() {
                             <span className="inline-flex rounded-md shadow">
                               <button
                                 type="button"
-                                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#FF6F43] hover:bg-[#ee8c2a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="inline-flex items-center px-4 py-2 border border-transparent 
+                                text-sm font-medium rounded-md shadow-sm text-white bg-[#FF6F43]
+                                 hover:bg-[#ee8c2a] focus:outline-none focus:ring-2 focus:ring-offset-2
+                                  focus:ring-indigo-500"
                                 onClick={() => setSignUpModal(true)}
                               >
                                 Sign Up
@@ -148,7 +155,8 @@ export default function NavBar() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none">
+                      <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-48 rounded-md
+                       shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none">
                         {userNavigation.map((item) => (
                           <Menu.Item key={item.name}>
                             {({ active }) => (
@@ -183,7 +191,8 @@ export default function NavBar() {
                   </div>
                   <button
                     type="button"
-                    className="ml-auto flex-shrink-0 bg-white rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="ml-auto flex-shrink-0 bg-white rounded-full p-1 text-gray-400
+                     hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />

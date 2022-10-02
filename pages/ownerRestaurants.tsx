@@ -1,10 +1,8 @@
-import React from "react";
-import OwnerDashboardSidebar from "./ownerdashboard";
-export default function OwnerRestaurants() {
+import React from 'react';
+import OwnerDashboardSidebar from './OwnerDashboard';
 
-    return (
-        <>
-            <OwnerDashboardSidebar />
-        </>
-    )
-}
+const OwnerRestaurants: React.FC<void> = () =>
+  <>
+    <OwnerDashboardSidebar />
+  </>;
+export default OwnerRestaurants;

@@ -1,68 +1,67 @@
-/* This example requires Tailwind CSS v2.0+ */
-//import { AnnotationIcon, GlobeAltIcon, LightningBoltIcon, MailIcon, ScaleIcon } from '@heroicons/react/outline'
-import MailIcon from "../Icons/MailIcon"
-import LocationIcon from "../Icons/LocationIcon"
-import ARIcon from "../Icons/ARIcon"
-import QRIcon from "../Icons/QRIcon"
-import CameraIcon from "../Icons/CameraIcon"
-import DeviceIcon from "../Icons/DeviceIcon"
-import SceneComponent from "./SceneComponent"
+import React from 'react';
+import Image from 'next/image';
+import { isSafari } from '@firebase/util';
+import LocationIcon from '../Icons/LocationIcon';
+import ARIcon from '../Icons/ARIcon';
+import QRIcon from '../Icons/QRIcon';
+import CameraIcon from '../Icons/CameraIcon';
+import DeviceIcon from '../Icons/DeviceIcon';
+import SceneComponent from './SceneComponent';
 import 'babylonjs-loaders';
-import { useEffect } from "react"
-import { isSafari } from "@firebase/util"
-
 
 const transferFeatures = [
   {
     id: 1,
-    name: 'Restaurants For You',
+    name: `Restaurants For You`,
     description:
-      'View restaurants in your area with ease. Get suggestions based on what foods you like. Explore new foods around you. Add dishes to your taste list to come back to later. ',
+      `View restaurants in your area with ease. Get suggestions based on what foods you 
+      like. Explore new foods around you. Add dishes to your taste list to come back to later. `,
     icon: <LocationIcon />,
   },
   {
     id: 2,
-    name: 'See Before You Eat',
+    name: `See Before You Eat`,
     description:
-      'View dishes as 3D models and Augmented Reality. Understand and know exactly what you should be getting when you order your dish.',
+      `View dishes as 3D models and Augmented Reality. Understand
+       and know exactly what you should be getting when you order your dish.`,
     icon: <ARIcon />,
   },
   {
     id: 3,
-    name: 'QR Code Menus',
+    name: `QR Code Menus`,
     description:
-      'View menus utilizing QR Codes. Experience a true augmented reality experience with ease, no app download required. Though we do have one ;) ',
+      `View menus utilizing QR Codes. Experience a true augmented reality
+       experience with ease, no app download required. Though we do have one ;) `,
     icon: <QRIcon />,
   },
-]
+];
 
 const communicationFeatures = [
   {
     id: 1,
-    name: 'Turn Dishes into 3D Models',
+    name: `Turn Dishes into 3D Models`,
     description:
-      'Bring your food to life by digitizing your menu using our scanning feature. Turn your phone into a photogrammetry device, capturing every detail of your dish.',
+      `Bring your food to life by digitizing your menu using our scanning feature. 
+      Turn your phone into a photogrammetry device, capturing every detail of your dish.`,
     icon: <CameraIcon />,
   },
   {
     id: 2,
-    name: 'Multiple Mediums of Access',
+    name: `Multiple Mediums of Access`,
     description:
-      'View Yummr on various platforms, from our web app, iOS app, scanning a QR code - to viewing the menu. ',
+      `View Yummr on various platforms, from our web app, iOS app, scanning a QR code - to viewing the menu. `,
     icon: <DeviceIcon />,
   },
-]
+];
 
-export default function Features() {
-  let box;
-
-  const onSceneReady = (scene) => {
+const Features: React.FC = () => {
+  const onSceneReady = (scene: any): void => {
     // This creates and positions a free camera (non-mesh)
-    var camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 2.7, new BABYLON.Vector3(0, 0, 0), scene);
+    const camera = new BABYLON.ArcRotateCamera(`camera`, -Math.PI / 2,
+      Math.PI / 2.5, 2.7, new BABYLON.Vector3(0, 0, 0), scene);
 
-
-    camera.lowerRadiusLimit = 2.7
-    camera.upperRadiusLimit = 2.7
+    camera.lowerRadiusLimit = 2.7;
+    camera.upperRadiusLimit = 2.7;
     // This targets the camera to scene origin
     camera.setTarget(BABYLON.Vector3.Zero());
 
@@ -72,23 +71,21 @@ export default function Features() {
     camera.attachControl(canvas, true);
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    //var light = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(0, -1, 0), scene);
-    //var light2 = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(-1, 1, 1), scene);
-    //var light3 = new BABYLON.DirectionalLight("DirectionalLight", new BABYLON.Vector3(1, 1, -1), scene);
-    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+    const light = new BABYLON.HemisphericLight(`light`, new BABYLON.Vector3(0, 1, 0), scene);
 
     // Default intensity is 1. Let's dim the light a small amount
     light.intensity = 0.7;
     // Our built-in 'box' shape.
-    box = BABYLON.SceneLoader.Append('https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/restaurants%2FRaivis_Restaurant%2F', 'salmon.glb?alt=media&token=f136b924-b16a-43ba-b625-072524ef188c', scene)
-    //box = BABYLON.MeshBuilder.CreateBox('box', { size: 2 }, scene)  
+    BABYLON.SceneLoader.Append(`
+    https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/restaurants%2FRaivis_Restaurant%2F
+    `
+    , `salmon.glb?alt=media&token=f136b924-b16a-43ba-b625-072524ef188c`, scene);
+    // box = BABYLON.MeshBuilder.CreateBox('box', { size: 2 }, scene)
 
     // Move the box upward 1/2 its height
 
     // Our built-in 'ground' shape.
   };
-
-  let safari = isSafari()
 
   return (
     <>
@@ -123,7 +120,8 @@ export default function Features() {
               A better way to <span className="text-[#EE7E0E]">view</span> food
             </h2>
             <p className="mt-4 max-w-3xl mx-auto text-center text-xl text-gray-500">
-              We give food a new dimension, giving meaning to what it means to reminiscence on the past food you have eaten with friends and family.
+              We give food a new dimension, giving meaning to what it means to reminiscence
+              on the past food you have eaten with friends and family.
             </p>
           </div>
 
@@ -134,36 +132,39 @@ export default function Features() {
                 Bring Food to <span className="text-[#EE7E0E]">Life</span>
               </h3>
               <p className="mt-3 text-lg text-gray-500">
-                See what you are about to order directly in front of you with 3D models and augmented reality. By using your phone's camera to place the dish on your table.
+                See what you are about to order directly in front of you with 3D models and
+                augmented reality. By using your phone's camera to place the dish on your table.
               </p>
 
               <dl className="mt-10 space-y-10">
-                {transferFeatures.map((item) => (
+                {transferFeatures.map((item) =>
                   <div key={item.id} className="relative">
                     <dt>
-                      <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-[#FF6F43] text-white">
+                      <div className="absolute flex items-center
+                      justify-center h-12 w-12 rounded-md bg-[#FF6F43] text-white">
                         {item.icon}
                       </div>
                       <p className="ml-16 text-lg leading-6 font-medium text-gray-900">{item.name}</p>
                     </dt>
                     <dd className="mt-2 ml-16 text-base text-gray-500">{item.description}</dd>
-                  </div>
-                ))}
+                  </div>)}
               </dl>
             </div>
-            {/*<div className="flex justify-end max-h-[100px]">
-            <a rel='ar' href='https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/restaurants%2FRaivis_Restaurant%2Fsalmon.usdz?alt=media&token=48863435-3eea-46a8-baa3-5d088489c18e'>
-              click me
-            </a>
-              </div>*/}
             <div className="mt-10 -mx-4 flex justify-center relative lg:mt-0" aria-hidden="true">
-              <SceneComponent className='outline-none inline min-h-[100%]' antialias onSceneReady={onSceneReady} id="my-canvas" />
+              <SceneComponent
+                className='outline-none inline min-h-[100%]'
+                antialias onSceneReady={onSceneReady}
+                id="my-canvas" />
               <menu className="absolute max-w-[25%] max-h-[25%] right-0 top-0">
                 <a
                   rel="ar"
+                  // eslint-disable-next-line max-len
                   href="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/restaurants%2FRaivis_Restaurant%2Fsalmon.usdz?alt=media&token=c6823f38-0798-4c6e-baf8-8ec46c4f1b99"
                 >
-                  <img className="max-w-[100%] max-h-[100%]" src="https://media.istockphoto.com/photos/dotted-grid-paper-background-texture-seamless-repeat-pattern-picture-id1320330053?b=1&k=20&m=1320330053&s=170667a&w=0&h=XisfN35UnuxAVP_sjq3ujbFDyWPurSfSTYd-Ll09Ncc=" />
+                  <Image className="max-w-[100%] max-h-[100%]"
+                    alt="ar button"
+                    // eslint-disable-next-line max-len
+                    src="https://media.istockphoto.com/photos/dotted-grid-paper-background-texture-seamless-repeat-pattern-picture-id1320330053?b=1&k=20&m=1320330053&s=170667a&w=0&h=XisfN35UnuxAVP_sjq3ujbFDyWPurSfSTYd-Ll09Ncc=" />
 
                 </a>
               </menu>
@@ -198,23 +199,25 @@ export default function Features() {
         <div className="relative mt-12 sm:mt-16 lg:mt-24">
           <div className="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:gap-8 lg:items-center">
             <div className="lg:col-start-2">
-              <h3 className="text-2xl font-extrabold text-gray-900 tracking-tight sm:text-3xl"><span className="text-[#EE7E0E]">Transform</span> Food into Digital Twins  </h3>
+              <h3 className="text-2xl font-extrabold text-gray-900 tracking-tight sm:text-3xl"><span
+                className="text-[#EE7E0E]">Transform</span> Food into Digital Twins  </h3>
               <p className="mt-3 text-lg text-gray-500">
-                Our scanner makes its easy for restaurant owners to add their menu to our platform -- all with your smartphone. The result is a beautiful digital 3D twin of their dish.
+                Our scanner makes its easy for restaurant owners to add their menu to our
+                platform -- all with your smartphone. The result is a beautiful digital 3D twin of their dish.
               </p>
 
               <dl className="mt-10 space-y-10">
-                {communicationFeatures.map((item) => (
+                {communicationFeatures.map((item) =>
                   <div key={item.id} className="relative">
                     <dt>
-                      <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-[#FF6F43] text-white">
+                      <div className="absolute flex items-center
+                      justify-center h-12 w-12 rounded-md bg-[#FF6F43] text-white">
                         {item.icon}
                       </div>
                       <p className="ml-16 text-lg leading-6 font-medium text-gray-900">{item.name}</p>
                     </dt>
                     <dd className="mt-2 ml-16 text-base text-gray-500">{item.description}</dd>
-                  </div>
-                ))}
+                  </div>)}
               </dl>
             </div>
 
@@ -241,9 +244,10 @@ export default function Features() {
                 </defs>
                 <rect width={784} height={404} fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)" />
               </svg>
-              <img
+              <Image
                 className="relative mx-auto"
                 width={490}
+                // eslint-disable-next-line max-len
                 src="https://images.unsplash.com/photo-1590126141992-d6a613152c77?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
                 alt=""
               />
@@ -252,5 +256,7 @@ export default function Features() {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
+
+export default Features;
