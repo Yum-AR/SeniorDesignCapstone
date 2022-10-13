@@ -107,7 +107,7 @@ const RestaurantPage: React.FC = () => {
         <NavBar />
         <div className="bg-white w-[100vw]">
           <div aria-hidden="true" className="relative">
-            <Image
+            <Image width="100%" height="100%" 
               src={activeRestaurant ? activeRestaurant.restaurantSettings.restaurantHeaderImageURL
                 // eslint-disable-next-line max-len
                 : `https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/defaultBackgroundHeader.png?alt=media&token=5e5b463a-6feb-4207-b4a8-ce9912d6198f`}

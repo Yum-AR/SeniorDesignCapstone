@@ -11,7 +11,7 @@ const SearchFeed: React.FC = () =>
     {items.map((item) =>
       <li key={item.id} className="bg-white shadow overflow-hidden
         sm:rounded-md flex flex-col md:flex-row md:max-w-xl">
-        <Image className=" w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg
+        <Image width="100%" height="100%" className=" w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg
           md:rounded-none md:rounded-l-lg"
         src="https://mdbootstrap.com/wp-content/uploads/2020/06/vertical.jpg" alt="" />
         <div className="p-6 flex flex-col justify-start">

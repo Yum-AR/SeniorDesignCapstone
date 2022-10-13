@@ -4,7 +4,7 @@ import Image from 'next/image';
 const FeaturedPhoto: React.FC = () =>
   <section aria-labelledby="featured-heading" className="relative mt-16 rounded-lg overflow-hidden lg:h-96">
     <div className="absolute inset-0">
-      <Image
+      <Image width="100%" height="100%" 
         src="https://tailwindui.com/img/ecommerce-images/category-page-01-featured-collection.jpg"
         alt=""
         className="w-full h-full object-center object-cover"

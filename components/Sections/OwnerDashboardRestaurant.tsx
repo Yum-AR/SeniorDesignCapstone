@@ -73,7 +73,7 @@ export default function OwnerDashboardRestaurant() {
                     mb-[1px] rounded-full inline-block"></span> : <span className="bg-red-500 w-[5px] h-[5px]
                     ml-2 mb-[1px] rounded-full inline-block"></span>}</h1>
                 <Link href={`restaurantSettings/${restaurant.restaurantID}`}>
-                  <Image className=" w-[7%] hover:cursor-pointer self-end mb-1 mr-2"
+                  <Image width="100%" height="100%" className=" w-[7%] hover:cursor-pointer self-end mb-1 mr-2"
                     alt="restaurant image"
                     // eslint-disable-next-line max-len
                     src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/gears.png?alt=media&token=84e7fa28-9c77-4579-b043-ef598000572b" />
@@ -81,7 +81,7 @@ export default function OwnerDashboardRestaurant() {
               </div>
               <div>
                 <Link href={`menuItems/${restaurant.restaurantID}`} >
-                  <Image src={restaurant.restaurantSettings.restaurantThumbnailImageURL !== undefined ? restaurant.restaurantSettings.restaurantThumbnailImageURL
+                  <Image width="100%" height="100%" src={restaurant.restaurantSettings.restaurantThumbnailImageURL !== undefined ? restaurant.restaurantSettings.restaurantThumbnailImageURL
                     // eslint-disable-next-line max-len
                     : `https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/menuDefault.png?alt=media&token=e3fc6f48-4489-4243-b457-680edfdcbd6c`}
                   className="w-full h-full hover:cursor-pointer rounded"/>
