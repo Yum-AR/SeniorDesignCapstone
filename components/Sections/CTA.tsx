@@ -30,7 +30,7 @@ const CTA: React.FC = () => {
     <div className="relative bg-white">
       <div className="lg:absolute lg:inset-0">
         <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-          <Image
+          <Image  width="100%" height="100%" 
             className="h-30 w-full object-cover lg:absolute lg:h-full"
             // eslint-disable-next-line max-len
             src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"

@@ -28,7 +28,7 @@ export default function SearchCards({ restaurantArray }) {
                 <Link href={`/restaurant/${item.id}`}>
                   <div className="flex cursor-pointer" onClick={() => { handleSelectedRestaurant(item); }}>
                     <div className="max-w-[50%] p-3 cursor-pointer">
-                      <Image className="   h-96 object-contain rounded"
+                      <Image width="100%" height="100%" className="   h-96 object-contain rounded"
                         src={item.restaurantSettings.restaurantHeaderImageURL
                           ? item.restaurantSettings.restaurantHeaderImageURL
                           // eslint-disable-next-line max-len

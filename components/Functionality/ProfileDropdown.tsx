@@ -27,7 +27,7 @@ const ProfileDropdown: React.FC = () => {
         <Menu.Button className="max-w-xs  rounded-full flex transition-all items-center
         text-sm focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-gray-200
          lg:p-2 lg:rounded-md lg:hover:bg-gray-100">
-          <Image
+          <Image width="100%" height="100%" 
             className="h-8 w-8 rounded-full"
             // eslint-disable-next-line max-len
             src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/icons%2Fperson.fill.svg?alt=media&token=d15cd625-303a-4a30-b9d0-b92849b925cd"

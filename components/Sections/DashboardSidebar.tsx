@@ -68,6 +68,7 @@ const DashboardSideBar: React.FC = () => {
                 <div className="flex-1 h-full pt-5 pb-4 overflow-y-auto">
                   <div className="flex-shrink-0 flex items-center px-4">
                     <Image
+                    width="100%" height="100%" 
                       className="h-8 w-auto"
                       // eslint-disable-next-line max-len
                       src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
@@ -146,7 +147,7 @@ const DashboardSideBar: React.FC = () => {
           <div className="hidden">
             <div className="flex items-center justify-between bg-gray-50 border-b border-gray-200 px-4 py-1.5">
               <div>
-                <Image
+                <Image width="100%" height="100%" 
                   className="h-8 w-auto"
                   // eslint-disable-next-line max-len
                   src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"

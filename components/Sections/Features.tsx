@@ -161,7 +161,9 @@ const Features: React.FC = () => {
                   // eslint-disable-next-line max-len
                   href="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/restaurants%2FRaivis_Restaurant%2Fsalmon.usdz?alt=media&token=c6823f38-0798-4c6e-baf8-8ec46c4f1b99"
                 >
-                  <Image className="max-w-[100%] max-h-[100%]"
+                  <Image 
+                  width="100%" height="100%" 
+                  className="max-w-[100%] max-h-[100%]"
                     alt="ar button"
                     // eslint-disable-next-line max-len
                     src="https://media.istockphoto.com/photos/dotted-grid-paper-background-texture-seamless-repeat-pattern-picture-id1320330053?b=1&k=20&m=1320330053&s=170667a&w=0&h=XisfN35UnuxAVP_sjq3ujbFDyWPurSfSTYd-Ll09Ncc=" />
@@ -245,6 +247,7 @@ const Features: React.FC = () => {
                 <rect width={784} height={404} fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)" />
               </svg>
               <Image
+              height="100%" 
                 className="relative mx-auto"
                 width={490}
                 // eslint-disable-next-line max-len
