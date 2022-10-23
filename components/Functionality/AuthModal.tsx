@@ -13,6 +13,7 @@ const AuthModal: React.FC<{showAuthModal: boolean;
   const { login } = useAuth();
   const Router = useRouter();
 
+
   const loginHandler = useCallback(
     async (event: SyntheticEvent) => {
       event.preventDefault();
@@ -168,3 +169,7 @@ const AuthModal: React.FC<{showAuthModal: boolean;
 };
 
 export default AuthModal;
+function setError(arg0: string) {
+  throw new Error('Function not implemented.');
+}
+

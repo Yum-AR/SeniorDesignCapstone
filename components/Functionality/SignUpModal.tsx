@@ -7,13 +7,13 @@ import ClosedLockIcon from '../Icons/ClosedLockIcon';
 import XIcon from '../Icons/XIcon';
 import { useAuth } from '../../firebase/AuthContext';
 
-const SignUpModal = ({ showSignUpModal, setSignUpModal, setAuthModal }) => {
+const SignUpModal = ({ showSignUpModal, setSignUpModal, setAuthModal }: { showSignUpModal: any, setSignUpModal: any, setAuthModal: any}) => {
   const [ error, setError ] = useState(``);
   const { registerUser, currentUser } = useAuth();
   const Router = useRouter();
 
   const signupHandler = useCallback(
-    async (event) => {
+    async (event: { preventDefault: () => void; target: { elements: { email: any; password: any; }; }; }) => {
       console.log(`signupHandler called`);
       event.preventDefault();
       const { email, password } = event.target.elements;
