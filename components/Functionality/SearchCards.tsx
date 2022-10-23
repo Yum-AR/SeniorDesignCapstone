@@ -6,11 +6,11 @@ import {
 } from '../../src/context/ActiveRestaurantContext';
 import GenreBadge from './GenreBadge';
 
-export default function SearchCards({ restaurantArray }) {
+export default function SearchCards({ restaurantArray }: {restaurantArray: any}) {
   const activeRestaurantContext = useActiveRestaurantContext();
   const updateActiveRestaurantContext = useUpdateActiveRestaurantContext();
 
-  const handleSelectedRestaurant = (restaurant) => {
+  const handleSelectedRestaurant = (restaurant: { businessName: any; }) => {
     console.log(`selected${restaurant.businessName}`);
     updateActiveRestaurantContext(restaurant);
   };
@@ -19,11 +19,11 @@ export default function SearchCards({ restaurantArray }) {
     <>
       <div className="w-full">
         <ul role="list" className="space-y-3 w-full">
-          {restaurantArray.map((item) => (
+          {restaurantArray.map((item: { id?: any; restaurantSettings?: any; restaurantInformation?: any; businessName?: any; }) => (
             console.log(item),
             <div className=" m-5 mb-10">
 
-              <li key={item.id} href={`/restaurant/${item.id}`} className="bg-white shadow
+              <li key={item.id} ref={`/restaurant/${item.id}`} className="bg-white shadow
               hover:shadow-md  transition-all overflow-hidden w-[100%] sm:rounded-md">
                 <Link href={`/restaurant/${item.id}`}>
                   <div className="flex cursor-pointer" onClick={() => { handleSelectedRestaurant(item); }}>

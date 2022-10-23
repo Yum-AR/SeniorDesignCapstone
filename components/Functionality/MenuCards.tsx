@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import { collection, QueryDocumentSnapshot, DocumentData, query, where, limit, getDocs } from "@firebase/firestore";
 import { useActiveRestaurantContext, useUpdateActiveRestaurantContext } from '../../src/context/ActiveRestaurantContext'
 
-export default function MenuCards({ menuItems }) {
+export default function MenuCards({ menuItems }: { menuItems : any}) {
     let activeRestaurant = useActiveRestaurantContext()
     console.log('ACTIVE')
     let [restaurantData, setRestaurantData] = useState()
@@ -64,7 +64,7 @@ export default function MenuCards({ menuItems }) {
     for (let i = 0; i < menuItems.length; i++) {
         foodArr[menuItems[i].menuHeaderID].push(menuItems[i])
     }
-    const onSceneReady = (scene) => {
+    const onSceneReady = (scene: BABYLON.Nullable<BABYLON.Scene> | undefined) => {
 
         let model;
         // This creates and positions a free camera (non-mesh)
@@ -76,7 +76,7 @@ export default function MenuCards({ menuItems }) {
         // This targets the camera to scene origin
         camera.setTarget(BABYLON.Vector3.Zero());
 
-        const canvas = scene.getEngine().getRenderingCanvas();
+        const canvas = scene?.getEngine().getRenderingCanvas();
         BABYLON.SceneLoader.ShowLoadingScreen = false;
         // This attaches the camera to the canvas
         camera.attachControl(canvas, true);
@@ -90,7 +90,7 @@ export default function MenuCards({ menuItems }) {
         // Default intensity is 1. Let's dim the light a small amount
         light.intensity = 0.7;
         // Our built-in 'box' shape.
-        let url = webURL.split('appspot')
+        let url = webURL?.split('appspot')
         console.log(url)
         model = BABYLON.SceneLoader.Append((url[0] + "appspot"), url[1], scene)
         //box = BABYLON.MeshBuilder.CreateBox('box', { size: 2 }, scene)  
