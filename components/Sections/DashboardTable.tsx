@@ -10,7 +10,7 @@ import { db } from '../../firebase/clientApp';
 const DashboardTable: React.FC = () => {
   const [ open, setOpen ] = useState(false);
   const [ approvalType, setApprovalType ] = useState();
-  const approvalModel = async row => {
+  const approvalModel = async (row: { id: string; }) => {
     const updateRow = doc(db, `MenuItems`, row.id);
     await updateDoc(updateRow, {
       modelApproval: true,
@@ -23,7 +23,7 @@ const DashboardTable: React.FC = () => {
       fetchData();
     });
   };
-  const denyModel = async (row) => {
+  const denyModel = async (row: { id: string; }) => {
     const updateRow = doc(db, `MenuItems`, row.id);
     await updateDoc(updateRow, {
       modelApproval: false,
@@ -40,7 +40,7 @@ const DashboardTable: React.FC = () => {
   const columns = [
     {
       name: `image`,
-      cell: (row) =>
+      cell: (row: { thumbnailURL: string | undefined; }) =>
         <>
           {row.thumbnailURL ? <img className="w-[50%] h-[50%]" src={row.thumbnailURL} /> : ` no image`}
 
@@ -49,7 +49,7 @@ const DashboardTable: React.FC = () => {
     },
     {
       name: `created date`,
-      selector: (row) => {
+      selector: (row: { createdDate: { toDate: () => { (): any; new(): any; toGMTString: { (): any; new(): any; }; }; }; }) => {
         if (row.createdDate) {
           return row.createdDate.toDate().toGMTString();
         }
@@ -60,17 +60,17 @@ const DashboardTable: React.FC = () => {
     },
     {
       name: `Name`,
-      selector: row => row.menuItem,
+      selector: (row: { menuItem: any; }) => row.menuItem,
       sortable: true,
     },
     {
       name: `Restaurant ID`,
-      selector: row => row.id,
+      selector: (row: { id: any; }) => row.id,
       sortable: true,
     },
     {
       name: `download`,
-      cell: (row) =>
+      cell: (row: { modelURL: string; id: string | undefined; }) =>
         <button
           onClick={(e) => { e.preventDefault(); location.href = row.modelURL; }}
           data-tag="allowRowEvents"
@@ -83,7 +83,7 @@ const DashboardTable: React.FC = () => {
     },
     {
       name: `Approval`,
-      cell: (row) => <div className="flex">
+      cell: (row: { id: any; }) => <div className="flex">
 
         <button onClick={(e) => { e.preventDefault(); approvalModel(row); }}
           data-tag="allowRowEvents"

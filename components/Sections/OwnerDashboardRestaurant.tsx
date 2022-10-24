@@ -31,7 +31,7 @@ export default function OwnerDashboardRestaurant() {
     }
 
   };
-  const fetchRestaurantData = async (id) => {
+  const fetchRestaurantData = async (id: unknown) => {
     try {
       const restaurantQuery = query(restaurantCollection, where(`ownerID`, `==`, id));
       await getDocs(restaurantQuery)

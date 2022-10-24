@@ -1,24 +1,15 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import {
-  CalendarIcon,
-  HomeIcon,
-  MapIcon,
   MenuIcon,
-  SearchCircleIcon,
-  SpeakerphoneIcon,
-  UserGroupIcon,
   XIcon,
 } from '@heroicons/react/outline';
 
 import { collection, getDocs, query, where } from '@firebase/firestore';
 import { useRouter } from 'next/router';
-import { route } from 'next/dist/server/router';
 import { navigationSidebar } from '../reused_variables/variables';
-import Ownerdashboard from '../../pages/OwnerDashboard';
 import { db } from '../../firebase/clientApp';
 import { useAuth } from '../../firebase/AuthContext';
-import MenuEdit from './MenuEdit';
 import OwnerDashboardRestauruant from './OwnerDashboardRestaurant';
 
 export default function Sidebar() {
@@ -27,7 +18,7 @@ export default function Sidebar() {
   const [ restaurantId, setRestaurantId ] = useState();
 
   const router = useRouter();
-  function classNames(...classes) {
+  function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(` `);
   }
 
