@@ -6,6 +6,7 @@ import { addDoc, collection, query, updateDoc, where } from 'firebase/firestore'
 import ClosedLockIcon from '../Icons/ClosedLockIcon';
 import XIcon from '../Icons/XIcon';
 import { useAuth } from '../../firebase/AuthContext';
+import { db } from '../../firebase/clientApp';
 
 const SignUpModal = ({ showSignUpModal, setSignUpModal, setAuthModal }: { showSignUpModal: any, setSignUpModal: any, setAuthModal: any}) => {
   const [ error, setError ] = useState(``);

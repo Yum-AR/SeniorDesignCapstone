@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-const GenreBadge: React.FC<{value: Array<string|boolean>, priceRange: string}> = ({ value, priceRange }) => {
+const GenreBadge: React.FC<{value: Array<any>, priceRange: string}> = ({ value, priceRange }) => {
   const foodGenres = [];
   for (const genre of value) {
     if (genre[1] === true) {
