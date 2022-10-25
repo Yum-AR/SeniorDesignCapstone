@@ -1,17 +1,14 @@
-import { useState, Fragment, useEffect } from 'react'
+import { useState, Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import XIcon from '../Icons/XIcon'
-import { ExclamationIcon } from '@heroicons/react/solid'
 import 'babylonjs-loaders';
 import SceneComponent from '../Sections/SceneComponent'
-import NavBar from '../Nav/NavBar';
 import { db } from '../../firebase/clientApp';
-import { doc, getDoc } from "firebase/firestore"
 import { useRouter } from 'next/router';
-import { collection, QueryDocumentSnapshot, DocumentData, query, where, limit, getDocs } from "@firebase/firestore";
-import { useActiveRestaurantContext, useUpdateActiveRestaurantContext } from '../../src/context/ActiveRestaurantContext'
+import { collection, query, where, getDocs } from "@firebase/firestore";
+import { useActiveRestaurantContext } from '../../src/context/ActiveRestaurantContext'
 
-export default function MenuCards({ menuItems }: { menuItems : any}) {
+export default function MenuCards({ menuItems }: { menuItems : any }) {
     let activeRestaurant = useActiveRestaurantContext()
     console.log('ACTIVE')
     let [restaurantData, setRestaurantData] = useState()

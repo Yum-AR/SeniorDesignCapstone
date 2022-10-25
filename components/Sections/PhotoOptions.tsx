@@ -86,3 +86,7 @@ const PhotoOptions: React.FC = () => {
   );
 };
 export default PhotoOptions;
+function setMenuItems(newMenuDataArray: { id: string; }[]) {
+  throw new Error('Function not implemented.');
+}
+

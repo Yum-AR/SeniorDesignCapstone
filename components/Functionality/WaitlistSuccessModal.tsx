@@ -3,8 +3,7 @@ import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/outline';
 
-export default function WaitlistSuccessModal({ open, setOpen }) {
-  const [ open, setOpen ] = useState(true);
+export default function WaitlistSuccessModal({ open, setOpen }: { open: any; setOpen: any }) {
 
   return (
     <Transition.Root show={open} as={Fragment}>
