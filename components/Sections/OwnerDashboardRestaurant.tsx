@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { collection, DocumentData, getDocs, query, QueryDocumentSnapshot, where } from 'firebase/firestore';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -8,54 +7,56 @@ import { db } from '../../firebase/clientApp';
 
 export default function OwnerDashboardRestaurant() {
   const { currentUser } = useAuth();
-  const restaurantCollection = collection(db, `Restaurant`);
-  const ownerCollection = collection(db, `Owners`);
   const router = useRouter();
   const [ ownerID, setOwnerID ] = useState();
-  const [ restaurantArray, setRestaurantArray ] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([]);
-  const fetchOwnerData = async () => {
-    try {
-      let data;
-      const ownerQuery = query(ownerCollection, where(`userID`, `==`, currentUser.uid));
-      await getDocs(ownerQuery)
-        .then((querySnapshot) => {
-          const ownerData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-          console.log(ownerData);
-          data = ownerData;
-          setOwnerID(data[0].ownerID);
-          return data;
-        });
-      return data;
-    } catch (e) {
-      console.log(e);
-    }
 
-  };
-  const fetchRestaurantData = async (id: unknown) => {
-    try {
-      const restaurantQuery = query(restaurantCollection, where(`ownerID`, `==`, id));
-      await getDocs(restaurantQuery)
-        .then((querySnapshot) => {
-          const restaurantData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-          setRestaurantArray(restaurantData);
-        });
-    } catch (e) {
-      console.log(e);
-    }
+  // ! implement appropiate model from Prisma
+  // const restaurantCollection = collection(db, `Restaurant`);
+  // const ownerCollection = collection(db, `Owners`);
+  // const [ restaurantArray, setRestaurantArray ] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([]);
+  // const fetchOwnerData = async () => {
+  //   try {
+  //     let data;
+  //     const ownerQuery = query(ownerCollection, where(`userID`, `==`, currentUser.uid));
+  //     await getDocs(ownerQuery)
+  //       .then((querySnapshot) => {
+  //         const ownerData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  //         console.log(ownerData);
+  //         data = ownerData;
+  //         setOwnerID(data[0].ownerID);
+  //         return data;
+  //       });
+  //     return data;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
 
-  };
-  useEffect(() => {
-    fetchOwnerData()
-      .then((data) => {
-        const { ownerID } = data[0];
-        fetchRestaurantData(ownerID);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+  // };
+  // const fetchRestaurantData = async (id: unknown) => {
+  //   try {
+  //     const restaurantQuery = query(restaurantCollection, where(`ownerID`, `==`, id));
+  //     await getDocs(restaurantQuery)
+  //       .then((querySnapshot) => {
+  //         const restaurantData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  //         setRestaurantArray(restaurantData);
+  //       });
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
 
-  console.log(restaurantArray);
+  // };
+  // useEffect(() => {
+  //   fetchOwnerData()
+  //     .then((data) => {
+  //       const { ownerID } = data[0];
+  //       fetchRestaurantData(ownerID);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // }, []);
+
+  // console.log(restaurantArray);
 
   return (
     <>

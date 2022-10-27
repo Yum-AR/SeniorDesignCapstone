@@ -1,5 +1,5 @@
 import React from 'react'
-import { Fragment, useState, useEffect, useCallback } from 'react'
+import { Fragment, useState, useCallback } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import SaveIcon from '../../components/Icons/SaveIcon'
 import Uppy from '@uppy/core'
@@ -7,39 +7,13 @@ import { Dashboard, useUppy } from '@uppy/react'
 import ConfirmationModal from '../../components/Functionality/DeleteConfirmation'
 import '@uppy/core/dist/style.css'
 import '@uppy/Dashboard/dist/style.css'
-import Router, { useRouter } from 'next/router'
-import S3 from 'react-aws-s3'
+import { useRouter } from 'next/router'
 import QRCode from 'react-qr-code'
 import NavBar from '../../components/Nav/NavBar'
-
-import {
-    CalendarIcon,
-    CogIcon,
-    HomeIcon,
-    MapIcon,
-    MenuIcon,
-    SearchCircleIcon,
-    SpeakerphoneIcon,
-    UserGroupIcon,
-    ViewGridAddIcon,
-    XIcon,
-} from '@heroicons/react/outline'
-import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, MailIcon, PhoneIcon, SearchIcon, PencilIcon } from '@heroicons/react/solid'
-import { useAuth } from '../../firebase/AuthContext'
-import { db } from '../../firebase/clientApp'
-import { getDoc, doc, updateDoc, deleteDoc } from "firebase/firestore"
-import { collection, QueryDocumentSnapshot, DocumentData, query, where, limit, getDocs, addDoc } from "@firebase/firestore";
-import { updateCurrentUser, updatePhoneNumber } from 'firebase/auth'
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
-import path from 'path'
-import AwsS3 from '@uppy/aws-s3'
+import { ChevronLeftIcon, ChevronRightIcon, PencilIcon } from '@heroicons/react/solid'
 import AWS from 'aws-sdk'
 
-//TODO  instead of fetching data after creating an item or deleting item, we want to just visually update page from the component render cycle and only add one item.  another example is deleting item on page and deleting item but not fetching data after.
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
+//TODO instead of fetching data after creating an item or deleting item, we want to just visually update page from the component render cycle and only add one item.  another example is deleting item on page and deleting item but not fetching data after.
 
 const initialValues = {
     menuItem: "",
@@ -55,8 +29,6 @@ AWS.config.update({
 
 
 export default function restaurantMenu() {
-
-    const { currentUser } = useAuth()
     const [showConfirmationModal, setConfirmationModal] = useState(false)
 
     //INITIALIZING UPPY FOR FILE UPLOADS USING S3 - S3 BUCKET STILL NEEDS TO BE CONFIGURED
@@ -115,7 +87,8 @@ export default function restaurantMenu() {
     const [active, setActive] = useState([])
     const [restaurantId, setRestaurantId] = useState()
     const [isEditing, setEditing] = useState(false)
-    const [menuItemsUnfiltered, setMenuItemsUnfiltered] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
+    // ! implement appropiate model from Prisma
+    // const [menuItemsUnfiltered, setMenuItemsUnfiltered] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
     const toggleEditing = () => {
         setEditing(value => !value)
         let menuItemsListArr = document.getElementById('menuItemsList')
@@ -136,62 +109,64 @@ export default function restaurantMenu() {
     const [values, setValues] = useState(initialValues);
 
 
+    // ! implement appropiate model from Prisma
+    // const menuItemCollectionReference = collection(db, 'MenuItems')
+    // const userCollectionReference = collection(db, 'users')
 
-    const menuItemCollectionReference = collection(db, 'MenuItems')
-    const userCollectionReference = collection(db, 'users')
-    const [menuItemArray, setMenuItemArray] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
+    // const [menuItemArray, setMenuItemArray] = useState<QueryDocumentSnapshot<DocumentData>[]>([]);
 
     let isOwner;
     let userID;
 
     //FETCHES ALL APPROPIATE DATA IF USER EXISTS
-    if (currentUser) {
-        const currentUserID = currentUser.uid
-        var fetchOwnerMenuData = async () => {
-            const menuItemsQuery = query(menuItemCollectionReference, where("restaurantID", "==", restaurantMenu))
-            await getDocs(menuItemsQuery)
-                .then((querySnapshot) => {
-                    const newMenuItemDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-                    setMenuItemsUnfiltered(newMenuItemDataArray)
-                    setMenuItemArray(newMenuItemDataArray);
-                    setActive(newMenuItemDataArray[0]);
-                })
-                .catch((err) => {
-                    console.error("Failed to get data", err)
-                })
-        }
-        var fetchUserData = async () => {
-            const findUserQuery = query(userCollectionReference, where("userID", "==", currentUserID))
-            await getDocs(findUserQuery)
-                .then((querySnapshot) => {
-                    const userData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-                    userID = userData[0].userID
-                    isOwner = userData[0].isOwner
-                })
-                .catch((e) => {
-                    console.log(e)
-                })
+    // ! implement appropiate model from Prisma
+    // if (currentUser) {
+    //     const currentUserID = currentUser.uid
+    //     var fetchOwnerMenuData = async () => {
+    //         const menuItemsQuery = query(menuItemCollectionReference, where("restaurantID", "==", restaurantMenu))
+    //         await getDocs(menuItemsQuery)
+    //             .then((querySnapshot) => {
+    //                 const newMenuItemDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    //                 setMenuItemsUnfiltered(newMenuItemDataArray)
+    //                 setMenuItemArray(newMenuItemDataArray);
+    //                 setActive(newMenuItemDataArray[0]);
+    //             })
+    //             .catch((err) => {
+    //                 console.error("Failed to get data", err)
+    //             })
+    //     }
+    //     var fetchUserData = async () => {
+    //         const findUserQuery = query(userCollectionReference, where("userID", "==", currentUserID))
+    //         await getDocs(findUserQuery)
+    //             .then((querySnapshot) => {
+    //                 const userData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    //                 userID = userData[0].userID
+    //                 isOwner = userData[0].isOwner
+    //             })
+    //             .catch((e) => {
+    //                 console.log(e)
+    //             })
 
 
-        }
+    //     }
 
-        var fetchData = async () => {
-            await fetchUserData();
-            try {
-                if (isOwner === true) {
-                    await fetchOwnerMenuData()
-                } else {
-                    Router.push('/')
-                    console.log('No User Found')
-                }
-            } catch (e) {
-                console.log(e)
-            }
+    //     var fetchData = async () => {
+    //         await fetchUserData();
+    //         try {
+    //             if (isOwner === true) {
+    //                 await fetchOwnerMenuData()
+    //             } else {
+    //                 Router.push('/')
+    //                 console.log('No User Found')
+    //             }
+    //         } catch (e) {
+    //             console.log(e)
+    //         }
 
-        }
-    } else {
-        console.log('NO USER FOUND')
-    }
+    //     }
+    // } else {
+    //     console.log('NO USER FOUND')
+    // }
 
     //FUNCTION RUNS WHEN PRINT QR CODE BUTTON IS CLICKED - PRINTS QR CODE
     const printQR = () => {
@@ -242,20 +217,20 @@ export default function restaurantMenu() {
     const createHeaderTextBox = () => {
         let headerInputField = document.createElement('input')
         let filterButton = document.getElementById('filterButton')
-        headerInputField.style.display = null
-        filterButton.style.display = 'none'
+        headerInputField.style.display = '';
+        filterButton!.style.display = 'none'
         let addNewHeaderDiv = document.getElementById('addNewHeaderDiv')
         let newHeaderButton = document.getElementById('newHeaderButton')
         let submitNewHeader = document.createElement('button')
-        submitNewHeader.style.display = null
+        submitNewHeader.style.display = '';
         headerInputField.classList.add('p-2')
         submitNewHeader.classList.add('inline', 'mt-2', 'bg-blue-500', 'hover:bg-blue700', 'text-white', 'text-sm', 'py-2', 'px-4', 'rounded')
         submitNewHeader.innerHTML = 'add'
         headerInputField.setAttribute('placeholder', 'your new header name...')
         submitNewHeader.setAttribute('type', 'button')
-        newHeaderButton.insertAdjacentElement('beforebegin', headerInputField)
-        newHeaderButton.style.display = 'none'
-        addNewHeaderDiv.append(submitNewHeader)
+        newHeaderButton?.insertAdjacentElement('beforebegin', headerInputField)
+        newHeaderButton?.style.display = 'none'
+        addNewHeaderDiv?.append(submitNewHeader)
 
         submitNewHeader.addEventListener('click', async () => {
             if (headerInputField.value !== '') {
@@ -267,20 +242,21 @@ export default function restaurantMenu() {
                 }
 
                 console.log(menuHeaders)
-                const restaurantRef = doc(db, 'Restaurant', restaurantMenu)
-                await updateDoc(restaurantRef, {
-                    menuHeaderArray: menuHeaders
-                }).then(() => {
-                    submitNewHeader.style.display = 'none'
-                    headerInputField.style.display = 'none'
-                    newHeaderButton.style.display = null
-                })
-            } else {
-                submitNewHeader.style.display = 'none'
-                headerInputField.style.display = 'none'
-                filterButton.style.display = null
-                newHeaderButton.style.display = null
-            }
+            // ! implement appropiate model from Prisma
+            //     const restaurantRef = doc(db, 'Restaurant', restaurantMenu)
+            //     await updateDoc(restaurantRef, {
+            //         menuHeaderArray: menuHeaders
+            //     }).then(() => {
+            //         submitNewHeader.style.display = 'none'
+            //         headerInputField.style.display = 'none'
+            //         newHeaderButton.style.display = null
+            //     })
+            // } else {
+            //     submitNewHeader.style.display = 'none'
+            //     headerInputField.style.display = 'none'
+            //     filterButton.style.display = null
+            //     newHeaderButton.style.display = null
+            // }
 
 
         })
@@ -300,10 +276,10 @@ export default function restaurantMenu() {
             menuHeadersOptions.append(header)
             menuHeadersDropdown.append(menuHeadersOptions)
         }
-        if (menuHeadersDiv.childNodes.length > 1) {
+        if (menuHeadersDiv!.childNodes.length > 1) {
             return
         } else {
-            menuHeadersDiv.append(menuHeadersDropdown)
+            menuHeadersDiv?.append(menuHeadersDropdown)
         }
 
         console.dir(menuHeadersDropdown)
@@ -311,30 +287,32 @@ export default function restaurantMenu() {
         return menuHeadersDiv
 
     }
-    const fetchRestaurantData = async () => {
-        let data;
-        const restaurantCollection = collection(db, 'Restaurant')
-        const restaurantQuery = query(restaurantCollection, where('restaurantID', '==', restaurantMenu))
-        await getDocs(restaurantQuery)
-            .then((querySnapshot) => {
-                const restaurantData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-                data = restaurantData[0].menuHeaderArray
-                return data
-            })
-        return data
-    }
+
+    // ! implement appropiate model from Prisma
+    // const fetchRestaurantData = async () => {
+    //     let data;
+    //     const restaurantCollection = collection(db, 'Restaurant')
+    //     const restaurantQuery = query(restaurantCollection, where('restaurantID', '==', restaurantMenu))
+    //     await getDocs(restaurantQuery)
+    //         .then((querySnapshot) => {
+    //             const restaurantData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    //             data = restaurantData[0].menuHeaderArray
+    //             return data
+    //         })
+    //     return data
+    // }
 
     //FILTERS ITEMS BASED ON SELECTED HEADER
     const filterItems = () => {
         let menuHeadersDropdown = document.getElementById('menuHeadersSelect')
-        let menuHeaderIndex = menuHeadersDropdown.options.selectedIndex
+        let menuHeaderIndex = menuHeadersDropdown?.options.selectedIndex
         let filteredItems = []
         for (let items of menuItemsUnfiltered) {
             if (items.menuHeaderID === menuHeaderIndex) {
                 filteredItems.push(items)
             }
         }
-        setMenuItemArray(filteredItems)
+        // setMenuItemArray(filteredItems)
 
         setActive(filteredItems[0])
     }
@@ -342,7 +320,7 @@ export default function restaurantMenu() {
         let setHeadersDiv = document.getElementById('setHeadersDiv')
         let menuHeadersDropdown = document.getElementById('menuSelect')
         console.dir(setHeadersDiv)
-        setHeadersDiv.style.display = null
+        setHeadersDiv!.style.display = ''
         if (!menuHeadersDropdown) {
             console.log(menuHeaders)
             if (menuHeaders !== undefined) {
@@ -353,51 +331,52 @@ export default function restaurantMenu() {
 
     }
     //FETCH DATA AFTER RENDER OF PAGE AND CREATE DROPDOWN MENU
-    useEffect(() => {
-        fetchData()
+    // ! implement appropiate model from Prisma
+    // useEffect(() => {
+    //     fetchData()
 
-        fetchRestaurantData()
-            .then((data) => {
-                setMenuHeaders(data)
-                menuHeaders.push(data)
-                console.log(menuHeaders)
-                if (menuHeaders[0] !== undefined) {
-                    createMenuHeaders(menuHeaders[0], 'menuHeadersDropdown', 'menuHeadersSelect')
-                }
+    //     fetchRestaurantData()
+    //         .then((data) => {
+    //             setMenuHeaders(data)
+    //             menuHeaders.push(data)
+    //             console.log(menuHeaders)
+    //             if (menuHeaders[0] !== undefined) {
+    //                 createMenuHeaders(menuHeaders[0], 'menuHeadersDropdown', 'menuHeadersSelect')
+    //             }
 
-            })
+    //         })
 
 
 
-    }, [])
+    // }, [])
 
 
     //ON FORM SUBMIT COMMUNICATING WITH FIREBASE TO SEND ENTERED VALUES
-    const formSubmit = (e) => {
+    const formSubmit = () => {
         let setHeadersDiv = document.getElementById('setHeadersDiv')
-        setHeadersDiv.style.display = 'none'
+        setHeadersDiv!.style.display = 'none'
 
-        let menuHeaderID = setHeadersDiv.childNodes[0].options.selectedIndex
+        let menuHeaderID = setHeadersDiv?.childNodes[0].options.selectedIndex
         let menuItem = document.getElementById('menuItem')
         let itemDescription = document.getElementById('itemDescription')
         let itemPrice = document.getElementById('itemPrice')
-        setName(menuItem.value)
-        setText(itemDescription.value)
-        setPrice(itemPrice.value)
+        setName(menuItem?.value)
+        setText(itemDescription?.value)
+        setPrice(itemPrice?.value)
 
-        const menuItemsCollection = doc(db, 'MenuItems', active.id)
-
-        updateDoc(menuItemsCollection, {
-            menuHeaderID,
-            menuItem: menuItem.value,
-            itemDescription: itemDescription.value,
-            lastUpdatedDate: new Date(),
-            itemPrice: itemPrice.value
-        })
+       // ! implement appropiate model from Prisma
+        // const menuItemsCollection = doc(db, 'MenuItems', active.id)
+        // updateDoc(menuItemsCollection, {
+        //     menuHeaderID,
+        //     menuItem: menuItem.value,
+        //     itemDescription: itemDescription.value,
+        //     lastUpdatedDate: new Date(),
+        //     itemPrice: itemPrice.value
+        // })
         //setTimeout(() => { window.location.reload() }, 1000)
-        active.menuItem = menuItem.value
-        active.itemDescription = itemDescription.value
-        active.itemPrice = itemPrice.value
+        active.menuItem = menuItem?.value
+        active.itemDescription = itemDescription?.value
+        active.itemPrice = itemPrice?.value
 
     }
 
@@ -406,7 +385,7 @@ export default function restaurantMenu() {
         let hideButton = document.getElementById('hide-directory')
         let showButton = document.getElementById('show-directory')
         hideButton?.classList.add('hidden')
-        directory.classList.add('hidden')
+        directory?.classList.add('hidden')
         showButton?.classList.remove('hidden')
     }
     const showDirectory = () => {
@@ -424,39 +403,39 @@ export default function restaurantMenu() {
         let newItemDescription = document.getElementById('newItemDescription')
         let newItemPrice = document.getElementById('newItemPrice')
 
-
-        const addNewItemMenu = addDoc(collection(db, 'MenuItems'), {
-            isPublished: false,
-            itemDescription: newItemDescription.value,
-            createdDate: new Date(),
-            lastUpdatedDate: new Date(),
-            itemPhotos: [],
-            menuHeaderID: 0,
-            modelApproval: null,
-            modelURL: '',
-            thumbnailURL: null,
-            modelUpdate: '',
-            restaurantID: restaurantMenu,
-            scaleCompensation: '',
-            userID: currentUser.uid,
-            itemPrice: newItemPrice.value,
-            menuItem: newItemTitle.value
-        })
-            .then(() => { fetchData() })
-            .catch(e => console.log(e))
-        addNewItemMenu.id
+        // ! implement appropiate model from Prisma
+        // const addNewItemMenu = addDoc(collection(db, 'MenuItems'), {
+        //     isPublished: false,
+        //     itemDescription: newItemDescription.value,
+        //     createdDate: new Date(),
+        //     lastUpdatedDate: new Date(),
+        //     itemPhotos: [],
+        //     menuHeaderID: 0,
+        //     modelApproval: null,
+        //     modelURL: '',
+        //     thumbnailURL: null,
+        //     modelUpdate: '',
+        //     restaurantID: restaurantMenu,
+        //     scaleCompensation: '',
+        //     userID: currentUser.uid,
+        //     itemPrice: newItemPrice.value,
+        //     menuItem: newItemTitle.value
+        // })
+        //     .then(() => { fetchData() })
+        //     .catch(e => console.log(e))
+        // addNewItemMenu.id
     }
-
-    const deleteFoodItem = async () => {
-        await deleteDoc(doc(db, 'MenuItems', active.id))
-            .then(() => {
-                console.log(menuItemArray[0])
-                fetchData()
-                setEditing(false)
-                setActive(menuItemArray[0])
-            })
-            .catch(e => console.log(e))
-    }
+    // ! implement appropiate model from Prisma
+    // const deleteFoodItem = async () => {
+    //     await deleteDoc(doc(db, 'MenuItems', active.id))
+    //         .then(() => {
+    //             console.log(menuItemArray[0])
+    //             fetchData()
+    //             setEditing(false)
+    //             setActive(menuItemArray[0])
+    //         })
+    //         .catch(e => console.log(e))
+    // }
 
     const handleActiveClick = useCallback((item) => {
         setActive(item);

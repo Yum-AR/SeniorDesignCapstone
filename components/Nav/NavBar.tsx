@@ -18,7 +18,6 @@ import { Fragment, useState } from 'react'
 import { Menu, Popover, Transition } from '@headlessui/react'
 import { SearchIcon } from '@heroicons/react/solid'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
-import { useAuth } from '../../firebase/AuthContext'
 import ProfileDropdown from '../Functionality/ProfileDropdown'
 import AuthModal from '../Functionality/AuthModal'
 import SignUpModal from '../Functionality/SignUpModal'
@@ -44,7 +43,6 @@ function classNames(...classes) {
 export default function NavBar() {
   const [showAuthModal, setAuthModal] = useState(false);
   const [showSignUpModal, setSignUpModal] = useState(false);
-  const { currentUser } = useAuth()
   return (
     <>
       {/* When the mobile menu is open, add `overflow-hidden` to the `body` element to prevent double scrollbars */}

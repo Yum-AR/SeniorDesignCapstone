@@ -3,9 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import XIcon from '../Icons/XIcon'
 import 'babylonjs-loaders';
 import SceneComponent from '../Sections/SceneComponent'
-import { db } from '../../firebase/clientApp';
 import { useRouter } from 'next/router';
-import { collection, query, where, getDocs } from "@firebase/firestore";
 import { useActiveRestaurantContext } from '../../src/context/ActiveRestaurantContext'
 
 export default function MenuCards({ menuItems }: { menuItems : any }) {
@@ -23,32 +21,33 @@ export default function MenuCards({ menuItems }: { menuItems : any }) {
     //}
     //console.log(foodArr)
     let router = useRouter()
-    let restaurantURL = router.query.id
-    const getRandData = async () => {
-        let data;
-        const restaurantCollection = collection(db, 'Restaurant')
-        const q = query(restaurantCollection, where('restaurantID', '==', restaurantURL))
-        await getDocs(q)
-            .then((querySnapshot) => {
-                const restaurantData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-                console.log(restaurantData, 'res data')
-                data = restaurantData
-                return data
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        return data
-    }
-    if (activeRestaurant === undefined) {
-        const localData = localStorage.getItem('restaurantMenu')
-        getRandData().then((data) => {
-            activeRestaurant = data[0]
-        })
-        activeRestaurant = JSON.parse(localData)
-    } else {
-        localStorage.setItem('restaurantMenu', JSON.stringify(activeRestaurant))
-    }
+    // let restaurantURL = router.query.id
+      // ! implement appropiate model from Prisma
+    // const getRandData = async () => {
+    //     let data;
+    //     const restaurantCollection = collection(db, 'Restaurant')
+    //     const q = query(restaurantCollection, where('restaurantID', '==', restaurantURL))
+    //     await getDocs(q)
+    //         .then((querySnapshot) => {
+    //             const restaurantData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    //             console.log(restaurantData, 'res data')
+    //             data = restaurantData
+    //             return data
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    //     return data
+    // }
+    // if (activeRestaurant === undefined) {
+    //     const localData = localStorage.getItem('restaurantMenu')
+    //     getRandData().then((data) => {
+    //         activeRestaurant = data[0]
+    //     })
+    //     activeRestaurant = JSON.parse(localData)
+    // } else {
+    //     localStorage.setItem('restaurantMenu', JSON.stringify(activeRestaurant))
+    // }
 
     if (!activeRestaurant) {
 
