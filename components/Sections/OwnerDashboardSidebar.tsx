@@ -5,15 +5,11 @@ import {
   XIcon,
 } from '@heroicons/react/outline';
 
-import { collection, getDocs, query, where } from '@firebase/firestore';
 import { useRouter } from 'next/router';
 import { navigationSidebar } from '../reused_variables/variables';
-import { db } from '../../firebase/clientApp';
-import { useAuth } from '../../firebase/AuthContext';
 import OwnerDashboardRestauruant from './OwnerDashboardRestaurant';
 
 export default function Sidebar() {
-  const { currentUser } = useAuth();
   const [ sidebarOpen, setSidebarOpen ] = useState(false);
   const [ restaurantId, setRestaurantId ] = useState();
 
@@ -22,21 +18,22 @@ export default function Sidebar() {
     return classes.filter(Boolean).join(` `);
   }
 
-  const ownersCollectionReference = collection(db, `Owners`);
+  // ! implement appropiate model from Prisma
+  // const ownersCollectionReference = collection(db, `Owners`);
 
-  const fetchOwnerData = async () => {
-    const findOwnerQuery = query(ownersCollectionReference, where(`userID`, `==`, currentUser.uid));
-    await getDocs(findOwnerQuery)
-      .then((querySnapshot) => {
-        const ownerData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-        console.log(ownerData);
+  // const fetchOwnerData = async () => {
+  //   const findOwnerQuery = query(ownersCollectionReference, where(`userID`, `==`, currentUser.uid));
+  //   await getDocs(findOwnerQuery)
+  //     .then((querySnapshot) => {
+  //       const ownerData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  //       console.log(ownerData);
 
-      });
-  };
+  //     });
+  // };
 
-  useEffect(() => {
-    fetchOwnerData();
-  }, []);
+  // useEffect(() => {
+  //   fetchOwnerData();
+  // }, []);
 
   return (
 
@@ -109,7 +106,6 @@ export default function Sidebar() {
                           key={item.name}
                           href={item.href}
                           className={classNames(
-                            console.log(item),
                             item.current
                               ? `bg-gray-100 text-gray-900`
                               : `text-gray-600 hover:bg-gray-50 hover:text-gray-900`,

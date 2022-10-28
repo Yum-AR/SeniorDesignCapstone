@@ -1,41 +1,40 @@
-/* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckIcon, DownloadIcon, XIcon } from '@heroicons/react/outline';
 import DataTable from 'react-data-table-component';
 // import Pagination from "../Functionality/Pagination";
-import { collection, doc, DocumentData, getDocs, query, QueryDocumentSnapshot, updateDoc, where } from '@firebase/firestore';
-import { db } from '../../firebase/clientApp';
 
 const DashboardTable: React.FC = () => {
   const [ open, setOpen ] = useState(false);
   const [ approvalType, setApprovalType ] = useState();
-  const approvalModel = async (row: { id: string; }) => {
-    const updateRow = doc(db, `MenuItems`, row.id);
-    await updateDoc(updateRow, {
-      modelApproval: true,
-    }).then(() => {
-      setApprovalType(`approve`);
-      setOpen(true);
-      setTimeout(() => {
-        setOpen(false);
-      }, 500);
-      fetchData();
-    });
-  };
-  const denyModel = async (row: { id: string; }) => {
-    const updateRow = doc(db, `MenuItems`, row.id);
-    await updateDoc(updateRow, {
-      modelApproval: false,
-    }).then(() => {
-      setApprovalType(`deny`);
-      setOpen(true);
-      setTimeout(() => {
-        setOpen(false);
-      }, 500);
-      fetchData();
-    });
-  };
+
+    // ! implement appropiate model from Prisma
+  // const approvalModel = async (row: { id: string; }) => {
+  //   const updateRow = doc(db, `MenuItems`, row.id);
+  //   await updateDoc(updateRow, {
+  //     modelApproval: true,
+  //   }).then(() => {
+  //     setApprovalType(`approve`);
+  //     setOpen(true);
+  //     setTimeout(() => {
+  //       setOpen(false);
+  //     }, 500);
+  //     fetchData();
+  //   });
+  // };
+  // const denyModel = async (row: { id: string; }) => {
+  //   const updateRow = doc(db, `MenuItems`, row.id);
+  //   await updateDoc(updateRow, {
+  //     modelApproval: false,
+  //   }).then(() => {
+  //     setApprovalType(`deny`);
+  //     setOpen(true);
+  //     setTimeout(() => {
+  //       setOpen(false);
+  //     }, 500);
+  //     fetchData();
+  //   });
+  // };
 
   const columns = [
     {
@@ -105,36 +104,39 @@ const DashboardTable: React.FC = () => {
 
   ];
 
-  const menuItemsCollectionReference = collection(db, `MenuItems`);
-  const [ menuItems, setMenuItems ] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([]);
+  // ! implement appropiate model from Prisma
+  // const menuItemsCollectionReference = collection(db, `MenuItems`);
+  // const [ menuItems, setMenuItems ] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([]);
 
-  const fetchData = async () => {
-    const menuItemsQuery = query(menuItemsCollectionReference, where(`modelApproval`, `==`, null));
+  // const fetchData = async () => {
+  //   const menuItemsQuery = query(menuItemsCollectionReference, where(`modelApproval`, `==`, null));
 
-    getDocs(menuItemsQuery)
-      .then((querySnapshot) => {
-        const newMenuDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  //   getDocs(menuItemsQuery)
+  //     .then((querySnapshot) => {
+  //       const newMenuDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
-        setMenuItems(newMenuDataArray);
+  //       setMenuItems(newMenuDataArray);
 
-      })
-      .catch((err) => {
-        console.error(`Failed to get data`, err);
-      });
-  };
-  const MINUTE_MS = 30000;
-  useEffect(() => {
+  //     })
+  //     .catch((err) => {
+  //       console.error(`Failed to get data`, err);
+  //     });
+  // };
+    // ! implement appropiate model from Prisma
+  //const MINUTE_MS = 30000;
 
-    fetchData().catch(e => console.error(e));
-    const body = document.querySelector(`body`);
-    body.classList.add(`overflow-hidden`);
-    const pos = document.getElementsByClassName(`.gJVjWL`);
-    const interval = setInterval(() => {
-      fetchData().catch(e => console.error(e));
-    }, MINUTE_MS);
-    return () => clearInterval(interval);
-    // console.log(menuItems)
-  }, []);
+  // useEffect(() => {
+
+  //   fetchData().catch(e => console.error(e));
+  //   const body = document.querySelector(`body`);
+  //   body.classList.add(`overflow-hidden`);
+  //   const pos = document.getElementsByClassName(`.gJVjWL`);
+  //   const interval = setInterval(() => {
+  //     fetchData().catch(e => console.error(e));
+  //   }, MINUTE_MS);
+  //   return () => clearInterval(interval);
+  //   // console.log(menuItems)
+  // }, []);
 
   return (
     <>

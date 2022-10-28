@@ -1,35 +1,12 @@
-/*
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { useEffect, useState } from 'react';
 import { Link } from 'react-scroll';
 import $ from 'jquery';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { doc, getDoc } from 'firebase/firestore';
-import { collection, DocumentData, getDocs, query, QueryDocumentSnapshot, where } from '@firebase/firestore';
 import NavBar from '../../components/Nav/NavBar';
 import GenreBadge from '../../components/Functionality/GenreBadge';
 import MenuCards from '../../components/Functionality/MenuCards';
 // firebase imports
-import { useAuth } from '../../firebase/AuthContext';
-
-function classNames(...classes: string[]): string {
-  return classes.filter(Boolean).join(` `);
-}
 
 const RestaurantPage: React.FC = () => {
 
@@ -39,44 +16,48 @@ const RestaurantPage: React.FC = () => {
   const updateActiveRestaurant = useUpdateActiveRestaurantContext();
 
   // firebase reference
-  const menuItemCollectionReference = collection(db, `MenuItems`);
+
   const router = useRouter();
   const restaurantURL = router.query.id;
 
-  const [ menuItemArray, setMenuItemArray ] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([]);
+  // ! implement appropiate model from Prisma
+  // const menuItemCollectionReference = collection(db, `MenuItems`);
+  // const [ menuItemArray, setMenuItemArray ] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const menuItemQuery = query(menuItemCollectionReference,
-        where(`restaurantID`, `==`, restaurantURL), where(`isPublished`, `==`, true));
-      getDocs(menuItemQuery)
-        .then((querySnapshot) => {
-          const newMenuItemDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-          setMenuItemArray(newMenuItemDataArray);
-        })
-        .catch((err) => {
-          console.error(`Failed to get data`, err);
-        });
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const menuItemQuery = query(menuItemCollectionReference,
+  //       where(`restaurantID`, `==`, restaurantURL), where(`isPublished`, `==`, true));
+  //     getDocs(menuItemQuery)
+  //       .then((querySnapshot) => {
+  //         const newMenuItemDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  //         setMenuItemArray(newMenuItemDataArray);
+  //       })
+  //       .catch((err) => {
+  //         console.error(`Failed to get data`, err);
+  //       });
 
-    };
-    fetchData();
+  //   };
+  //   fetchData();
 
-  }, []);
+  // }, []);
   const weekday = [ `Sunday`, `Monday`, `Tuesday`, `Wednesday`, `Thursday`, `Friday`, `Saturday` ];
   const date = new Date();
   const day = weekday[date.getDay()];
   console.log(`DAY`, day);
-  const filterItems = (index) => {
-    console.log(index);
-    console.log(menuItemArray);
-    const filteredFoodMenu = [];
-    for (const item of menuItemArray) {
-      if (item.menuHeaderID === index) {
-        filteredFoodMenu.push(item);
-      }
-    }
-    setFilteredItems(filteredFoodMenu);
-  };
+  
+    // ! implement appropiate model from Prisma
+  // const filterItems = (index) => {
+  //   console.log(index);
+  //   console.log(menuItemArray);
+  //   const filteredFoodMenu = [];
+  //   for (const item of menuItemArray) {
+  //     if (item.menuHeaderID === index) {
+  //       filteredFoodMenu.push(item);
+  //     }
+  //   }
+  //   setFilteredItems(filteredFoodMenu);
+  // };
   $(window).scroll(function() {
     $(`#fixedHeaderNav`).css(`top`, Math.max(-40, 670 - $(this).scrollTop()));
   });
@@ -87,16 +68,17 @@ const RestaurantPage: React.FC = () => {
     if (typeof window === `object`) {
       let { pathname } = window.location;
       pathname = pathname.replace(`/restaurant/`, ``);
-      const restaurantDocumentReference = doc(db, `Restaurant`, pathname);
 
-      async function getSingleRestaurant() {
-        const docSnap = await getDoc(restaurantDocumentReference).then((data) => {
-          updateActiveRestaurant(data.data());
+      // ! implement appropiate model from Prisma
+      // const restaurantDocumentReference = doc(db, `Restaurant`, pathname);
+      // async function getSingleRestaurant() {
+      //   const docSnap = await getDoc(restaurantDocumentReference).then((data) => {
+      //     updateActiveRestaurant(data.data());
 
-        }, () => { console.log(`No such document!`); });
-        return docSnap;
-      }
-      getSingleRestaurant();
+      //   }, () => { console.log(`No such document!`); });
+      //   return docSnap;
+      // }
+      // getSingleRestaurant();
     }
 
   }, []);

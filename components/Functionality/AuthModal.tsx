@@ -3,14 +3,12 @@ import React, { Dispatch, Fragment, SyntheticEvent, useCallback } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import XIcon from '../Icons/XIcon';
-import { useAuth } from '../../firebase/AuthContext';
 
 const AuthModal: React.FC<{showAuthModal: boolean;
   setAuthModal: Dispatch<boolean>;
   setSignUpModal: Dispatch<boolean>;
 }> = ({ showAuthModal, setAuthModal, setSignUpModal }) => {
 
-  const { login } = useAuth();
   const Router = useRouter();
 
 

@@ -16,38 +16,40 @@ export default function RestaurantSettings() {
     console.log("ROUTER QUERY", router.query)
     const [restaurant, setRestaurant] = useState()
     const restaurantCollectionReference = collection(db, 'Restaurant')
-    const fetchData = async () => {
-        let data;
-        let restaurantQuery = query(restaurantCollectionReference, where("restaurantID", "==", restaurantID))
-        await getDocs(restaurantQuery)
-            .then((querySnapshot) => {
-                const restaurantData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-                setRestaurant(restaurantData)
-                data = restaurantData
-                return data
-            })
-        return data
-    }
+
+    // ! implement appropiate model from Prisma
+    // const fetchData = async () => {
+    //     let data;
+    //     let restaurantQuery = query(restaurantCollectionReference, where("restaurantID", "==", restaurantID))
+    //     await getDocs(restaurantQuery)
+    //         .then((querySnapshot) => {
+    //             const restaurantData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    //             setRestaurant(restaurantData)
+    //             data = restaurantData
+    //             return data
+    //         })
+    //     return data
+    // }
     useEffect(() => {
+  // ! implement appropiate model from Prisma
+        // fetchData().then((data) => {
+        //     let diets = ['glutenFree', 'halal', 'kosher', 'vegan', 'vegetarian']
+        //     let cuisines = ['american', 'bakery', 'chinese', 'fastFood', 'french', 'indian', 'italian', 'japanese', 'mexican', 'pizza', 'seafood', 'steak', 'thai']
+        //     const dietaryChecker = (dietArr, objectSpot) => {
+        //         for (let diet of dietArr) {
+        //             let dietInput = document.getElementById(diet)
+        //             if (data[0].restaurantSettings[objectSpot][diet] === true) {
+        //                 dietInput.checked = true
+        //             } else {
+        //                 dietInput.checked = false
+        //             }
+        //         }
 
-        fetchData().then((data) => {
-            let diets = ['glutenFree', 'halal', 'kosher', 'vegan', 'vegetarian']
-            let cuisines = ['american', 'bakery', 'chinese', 'fastFood', 'french', 'indian', 'italian', 'japanese', 'mexican', 'pizza', 'seafood', 'steak', 'thai']
-            const dietaryChecker = (dietArr, objectSpot) => {
-                for (let diet of dietArr) {
-                    let dietInput = document.getElementById(diet)
-                    if (data[0].restaurantSettings[objectSpot][diet] === true) {
-                        dietInput.checked = true
-                    } else {
-                        dietInput.checked = false
-                    }
-                }
-
-            }
-            console.log(data[0].restaurantSettings.dietary.glutenFree)
-            dietaryChecker(diets, 'dietary')
-            dietaryChecker(cuisines, 'restaurantGenre')
-        })
+        //     }
+        //     console.log(data[0].restaurantSettings.dietary.glutenFree)
+        //     dietaryChecker(diets, 'dietary')
+        //     dietaryChecker(cuisines, 'restaurantGenre')
+        // })
         let monday_start = document.getElementById('monday_start')
         let monday_end = document.getElementById('monday_end')
 
@@ -96,7 +98,9 @@ export default function RestaurantSettings() {
     }, function () {
         $(this).removeClass('active');
     });
-    const restaurantRef = doc(db, "Restaurant", restaurantID)
+
+    // ! implement appropiate model from Prisma
+    // const restaurantRef = doc(db, "Restaurant", restaurantID)
     const submitConfirmed = () => {
         setOpen(true)
         setTimeout(() => {
@@ -125,11 +129,13 @@ export default function RestaurantSettings() {
             saturday: saturdayHours,
             sunday: sundayHours
         }
-        await updateDoc(restaurantRef, {
-            "restaurantInformation.hours": week
-        }).then(() => {
-            submitConfirmed()
-        })
+
+        // ! implement appropiate model from Prisma
+        // await updateDoc(restaurantRef, {
+        //     "restaurantInformation.hours": week
+        // }).then(() => {
+        //     submitConfirmed()
+        // })
 
     }
     const handleAddressForm = async (e) => {
@@ -149,11 +155,13 @@ export default function RestaurantSettings() {
             street,
             zip
         }
-        await updateDoc(restaurantRef, {
-            "restaurantInformation.restaurantAddress": address
-        }).then(() => {
-            submitConfirmed()
-        })
+
+        // ! implement appropiate model from Prisma
+        // await updateDoc(restaurantRef, {
+        //     "restaurantInformation.restaurantAddress": address
+        // }).then(() => {
+        //     submitConfirmed()
+        // })
     }
 
     const handleDietaryForm = async (e) => {
@@ -189,12 +197,13 @@ export default function RestaurantSettings() {
             steak: cuisineValues[11],
             thai: cuisineValues[12]
         }
-        await updateDoc(restaurantRef, {
-            "restaurantSettings.dietary": dietaryOptions,
-            "restaurantSettings.restaurantGenre": cuisineOptions
-        }).then(() => {
-            submitConfirmed()
-        })
+          // ! implement appropiate model from Prisma
+        // await updateDoc(restaurantRef, {
+        //     "restaurantSettings.dietary": dietaryOptions,
+        //     "restaurantSettings.restaurantGenre": cuisineOptions
+        // }).then(() => {
+        //     submitConfirmed()
+        // })
     }
 
     const handleGeneralForm = async (e) => {
@@ -203,14 +212,15 @@ export default function RestaurantSettings() {
         let restaurantDescription = document.getElementById('restaurantDescription').value
         let websiteURL = document.getElementById('websiteURL').value
         let phoneNumber = document.getElementById('phoneNumber').value
-        await updateDoc(restaurantRef, {
-            "restaurantInformation.restaurantName": businessName,
-            "restaurantInformation.restaurantDescription": restaurantDescription,
-            "restaurantInformation.websiteURL": websiteURL,
-            "restaurantInformation.phoneNumber": phoneNumber
-        }).then(() => {
-            submitConfirmed()
-        })
+          // ! implement appropiate model from Prisma
+        // await updateDoc(restaurantRef, {
+        //     "restaurantInformation.restaurantName": businessName,
+        //     "restaurantInformation.restaurantDescription": restaurantDescription,
+        //     "restaurantInformation.websiteURL": websiteURL,
+        //     "restaurantInformation.phoneNumber": phoneNumber
+        // }).then(() => {
+        //     submitConfirmed()
+        // })
     }
 
     let hoursNav = document.getElementById('hoursNav')

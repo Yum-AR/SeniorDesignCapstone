@@ -1,6 +1,4 @@
-import { collection, getDocs, query, where } from '@firebase/firestore';
 import React, { useEffect } from 'react';
-import { db } from '../../firebase/clientApp';
 
 const restaurants = [
   {
@@ -35,21 +33,21 @@ const restaurants = [
 ];
 
 const PhotoOptions: React.FC = () => {
-  const menuItemsCollectionReference = collection(db, `MenuItems`);
+  // const menuItemsCollectionReference = collection(db, `MenuItems`);
 
-  useEffect(() => {
-    const menuItemsQuery = query(menuItemsCollectionReference, where(`modelApproval`, `==`, null));
+  // useEffect(() => {
+  //   const menuItemsQuery = query(menuItemsCollectionReference, where(`modelApproval`, `==`, null));
 
-    getDocs(menuItemsQuery)
-      .then((querySnapshot) => {
-        const newMenuDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  //   getDocs(menuItemsQuery)
+  //     .then((querySnapshot) => {
+  //       const newMenuDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
-        setMenuItems(newMenuDataArray);
-      })
-      .catch((err) => {
-        console.error(`Failed to get data`, err);
-      });
-  }, []);
+  //       setMenuItems(newMenuDataArray);
+  //     })
+  //     .catch((err) => {
+  //       console.error(`Failed to get data`, err);
+  //     });
+  // }, []);
 
   return (
     <div className="bg-white">

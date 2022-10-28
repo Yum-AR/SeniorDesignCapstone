@@ -2,45 +2,41 @@
 import { Fragment, useCallback, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
-import { addDoc, collection, query, updateDoc, where } from 'firebase/firestore';
 import ClosedLockIcon from '../Icons/ClosedLockIcon';
 import XIcon from '../Icons/XIcon';
-import { useAuth } from '../../firebase/AuthContext';
-import { db } from '../../firebase/clientApp';
 
 const SignUpModal = ({ showSignUpModal, setSignUpModal, setAuthModal }: { showSignUpModal: any, setSignUpModal: any, setAuthModal: any}) => {
   const [ error, setError ] = useState(``);
-  const { registerUser, currentUser } = useAuth();
   const Router = useRouter();
+  // ! implement appropiate model from Prisma
+  // const signupHandler = useCallback(
+  //   async (event: { preventDefault: () => void; target: { elements: { email: any; password: any; }; }; }) => {
+  //     console.log(`signupHandler called`);
+  //     event.preventDefault();
+  //     const { email, password } = event.target.elements;
+  //     try {
+  //       setError(``);
+  //       const user = await registerUser(email.value, password.value);
 
-  const signupHandler = useCallback(
-    async (event: { preventDefault: () => void; target: { elements: { email: any; password: any; }; }; }) => {
-      console.log(`signupHandler called`);
-      event.preventDefault();
-      const { email, password } = event.target.elements;
-      try {
-        setError(``);
-        const user = await registerUser(email.value, password.value);
+  //       const newUser = await addDoc(collection(db, `users`), {
+  //         email: email.value,
+  //         favoriteID: ``,
+  //         password: password.value,
+  //         isOwner: false,
+  //       });
+  //       newUser.id;
+  //       await updateDoc(newUser, {
+  //         userID: user.user.uid,
+  //       });
 
-        const newUser = await addDoc(collection(db, `users`), {
-          email: email.value,
-          favoriteID: ``,
-          password: password.value,
-          isOwner: false,
-        });
-        newUser.id;
-        await updateDoc(newUser, {
-          userID: user.user.uid,
-        });
-
-        Router.push(`index.html`);
-        setSignUpModal(false);
-      } catch (error) {
-        setError(`Failed to create an account`);
-      }
-    },
-    [ Router ],
-  );
+  //       Router.push(`index.html`);
+  //       setSignUpModal(false);
+  //     } catch (error) {
+  //       setError(`Failed to create an account`);
+  //     }
+  //   },
+  //   [ Router ],
+  // );
 
   const showLoginForm = () => {
     setAuthModal(true);

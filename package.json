@@ -29,7 +29,6 @@
     "datatables.net": "^1.11.4",
     "datatables.net-dt": "^1.11.4",
     "dotenv": "^14.3.2",
-    "firebase": "^9.9.4",
     "fs": "0.0.1-security",
     "heroicons": "^1.0.5",
     "jquery": "^3.6.0",

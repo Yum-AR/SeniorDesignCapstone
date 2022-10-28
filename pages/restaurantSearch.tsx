@@ -1,42 +1,42 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { FilterIcon, MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid';
-import { collection, DocumentData, getDocs, query, QueryDocumentSnapshot, where } from '@firebase/firestore';
 import NavBar from '../components/Nav/NavBar';
 import XIcon from '../components/Icons/XIcon';
 import SearchCards from '../components/Functionality/SearchCards';
 import { filters, sortOptions } from '../components/reused_variables/searchFilterConstants';
-import { db } from '../firebase/clientApp';
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(` `);
 }
 
 const RestaurantSearch: React.FC = () => {
-  const [ restaurantArray, setRestaurantArray ] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([]);
+
   const [ mobileFiltersOpen, setMobileFiltersOpen ] = useState(false);
 
-  const restaurantCollectionReference = collection(db, `Restaurant`);
+  // ! implement appropiate model from Prisma
+  // const [ restaurantArray, setRestaurantArray ] = useState<Array<QueryDocumentSnapshot<DocumentData>>>([]);
+  // const restaurantCollectionReference = collection(db, `Restaurant`);
 
-  const fetchData = async (): Promise<any> => {
-    let data: any;
-    const restaurantCollectionQuery = query(restaurantCollectionReference, where(`isApproved`, `==`, true));
-    await getDocs(restaurantCollectionQuery)
-      .then((querySnapshot) => {
-        const newRestaurantDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-        data = newRestaurantDataArray;
-        return data;
-      })
-      .catch((err) => {
-        console.error(`Failed to get data`, err);
-      });
-    setRestaurantArray(data);
-    return data;
-  };
+  // const fetchData = async (): Promise<any> => {
+  //   let data: any;
+  //   const restaurantCollectionQuery = query(restaurantCollectionReference, where(`isApproved`, `==`, true));
+  //   await getDocs(restaurantCollectionQuery)
+  //     .then((querySnapshot) => {
+  //       const newRestaurantDataArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  //       data = newRestaurantDataArray;
+  //       return data;
+  //     })
+  //     .catch((err) => {
+  //       console.error(`Failed to get data`, err);
+  //     });
+  //   setRestaurantArray(data);
+  //   return data;
+  // };
 
-  useEffect(() => {
-    fetchData().catch((e: Error) => console.error(e));
-  }, []);
+  // useEffect(() => {
+  //   fetchData().catch((e: Error) => console.error(e));
+  // }, []);
 
   return (
     <div className="bg-white">
