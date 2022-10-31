@@ -5,6 +5,7 @@ import 'babylonjs-loaders';
 import SceneComponent from '../../../reusableItems/components/SceneComponent';
 import { useRouter } from 'next/router';
 import { useActiveRestaurantContext } from '../../../../src/context/ActiveRestaurantContext';
+import Image from 'next/image';
 
 export default function MenuCards({ menuItems }: { menuItems: any }) {
   const activeRestaurant = useActiveRestaurantContext();
@@ -64,7 +65,11 @@ export default function MenuCards({ menuItems }: { menuItems: any }) {
 
     let model;
     // This creates and positions a free camera (non-mesh)
-    const camera = new BABYLON.ArcRotateCamera(`camera`, -Math.PI / 2, Math.PI / 2.5, 2.7, new BABYLON.Vector3(0, 0, 0), scene);
+    const camera = new BABYLON.ArcRotateCamera(
+      `camera`,
+      -Math.PI / 2, Math.PI / 2.5, 2.7,
+      new BABYLON.Vector3(0, 0, 0), scene,
+    );
 
     camera.lowerRadiusLimit = 2.7;
     camera.upperRadiusLimit = 2.7;
@@ -98,18 +103,33 @@ export default function MenuCards({ menuItems }: { menuItems: any }) {
     <>
       {foodArr.map((section, index) =>
         <>
-          {activeRestaurant ? <h1 id={activeRestaurant.menuHeaderArray[index]} className="text-[2rem] font-bold m-8 ml-8">{activeRestaurant.menuHeaderArray[index]}</h1> : <h1>Loading...</h1>}
+          {activeRestaurant ? <h1 id={activeRestaurant.menuHeaderArray[index]}
+            className="text-[2rem] font-bold m-8 ml-8">{
+              activeRestaurant.menuHeaderArray[index]
+            }</h1> : <h1>Loading...</h1>}
           <div className="max-w-lg ml-4 mr-8 mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
             {section.map((item) =>
               <>
                 <div key={item.title} className="flex flex-col rounded-lg shadow-lg overflow-hidden">
 
                   <div className="flex-shrink-0">
-                    <img className="h-48 w-full object-cover" src={item.thumbnailURL ? item.thumbnailURL : `https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/menuDefault.png?alt=media&token=e3fc6f48-4489-4243-b457-680edfdcbd6c`} alt="" />
+                    <Image className="h-48 w-full object-cover"
+                      src={
+                        item.thumbnailURL
+                          ? item.thumbnailURL
+                          : `https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/
+                      menuDefault.png?alt=media&token=e3fc6f48-4489-4243-b457-680edfdcbd6c`
+                      } alt="" />
                   </div>
                   <div className="flex-1 bg-white p-6 flex flex-col justify-between">
                     <div className="flex-1">
-                      <button onClick={() => { setIsOpen(true); if (item.webURL) { setWebURL(item.webURL); } else { setWebURL(`https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/restaurants%2FYummrBakery%2FBread.glb?alt=media&token=3233accf-ed5b-4575-83b4-4a9a2ed2be25`); } setUsdzURL(item.modelURL); setFoodName(item.menuItem); }} className="float-right bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">View In AR</button>
+                      <button onClick={() => { setIsOpen(true); if (item.webURL)
+                      { setWebURL(item.webURL); } else {
+                        setWebURL(`https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/restaurants
+                           %2FYummrBakery%2FBread.glb?alt=media&token=3233accf-ed5b-4575-83b4-4a9a2ed2be25`); }
+                      setUsdzURL(item.modelURL); setFoodName(item.menuItem); }}
+                      className="float-right bg-white hover:bg-gray-100 text-gray-800
+                            font-semibold py-2 px-4 border border-gray-400 rounded shadow">View In AR</button>
                       <p className="text-xl font-semibold text-gray-900">{item.menuItem}</p>
                       <p className="text-xl font-semibold text-green-700">${item.itemPrice}</p>
                       <p className="mt-3 text-base text-gray-500">{item.itemDescription}</p>
@@ -149,11 +169,14 @@ export default function MenuCards({ menuItems }: { menuItems: any }) {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                <div className="relative inline-block align-bottom bg-white rounded-lg
+                px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl
+                transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                   <div id="modelview-div" className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                     <button
                       type="button"
-                      className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="bg-white rounded-md text-gray-400 hover:text-gray-500
+                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       onClick={() => setIsOpen(false)}
                     >
                       <span className="sr-only">Close</span>
@@ -166,13 +189,16 @@ export default function MenuCards({ menuItems }: { menuItems: any }) {
                         {foodName}
                       </Dialog.Title>
                       <div className="mt-2 max-h-[70%]">
-                        <SceneComponent className='outline-none max-w-[100%] max-h-[100%]' antialias onSceneReady={onSceneReady} id="my-canvas" />
+                        <SceneComponent
+                          className='outline-none max-w-[100%] max-h-[100%]'
+                          antialias onSceneReady={onSceneReady} id="my-canvas" />
                         <menu className="absolute max-w-[25%] max-h-[25%] right-0 top-0">
                           <a
                             rel="ar"
                             href={usdzURL}
                           >
-                            <img className="max-w-[100%] max-h-[100%]" src="https://img.wallpapersafari.com/desktop/1024/576/69/20/FgHujO.jpg" />
+                            <Image alt='' className="max-w-[100%] max-h-[100%]"
+                              src="https://img.wallpapersafari.com/desktop/1024/576/69/20/FgHujO.jpg" />
 
                           </a>
                         </menu>

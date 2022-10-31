@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/outline';
 
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import { navigationSidebar } from '../../../reusableItems/variables/variables';
 import OwnerDashboardRestauruant from './OwnerDashboardRestaurant';
 
@@ -83,7 +84,8 @@ export default function Sidebar() {
                   <div className="absolute top-0 right-0 -mr-12 pt-2">
                     <button
                       type="button"
-                      className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                      className="ml-1 flex items-center justify-center h-10 w-10 rounded-full
+                       focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                       onClick={() => setSidebarOpen(false)}
                     >
                       <span className="sr-only">Close sidebar</span>
@@ -93,9 +95,10 @@ export default function Sidebar() {
                 </Transition.Child>
                 <div className="flex-1 h-full pt-5 pb-4 overflow-y-auto">
                   <div className="flex-shrink-0 flex items-center px-4">
-                    <img
+                    <Image
                       className="h-8 w-auto"
-                      src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
+                      src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/
+                      appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
                       alt="Yummr"
                     />
                   </div>
@@ -173,16 +176,18 @@ export default function Sidebar() {
           <div className="hidden">
             <div className="flex items-center justify-between bg-gray-50 border-b border-gray-200 px-4 py-1.5">
               <div>
-                <img
+                <Image
                   className="h-8 w-auto"
-                  src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
+                  src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/
+                  appicon.svg?alt=media&token=e1e697e6-eb8f-4f01-97f3-201ebd43b904"
                   alt="Workflow"
                 />
               </div>
               <div>
                 <button
                   type="button"
-                  className="-mr-3 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900"
+                  className="-mr-3 h-12 w-12 inline-flex items-center justify-center
+                  rounded-md text-gray-500 hover:text-gray-900"
                   onClick={() => setSidebarOpen(true)}
                 >
                   <span className="sr-only">Open sidebar</span>

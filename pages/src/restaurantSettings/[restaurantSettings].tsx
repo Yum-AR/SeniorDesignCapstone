@@ -1,21 +1,15 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { CheckIcon, DownloadIcon, XIcon } from '@heroicons/react/outline';
-import { collection, doc, getDocs, query, QuerySnapshot, updateDoc, where } from 'firebase/firestore';
+import { CheckIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
-import $ from 'jquery';
-import { db } from '../../firebase/clientApp';
-import { useAuth } from '../../firebase/AuthContext';
+import Image from 'next/image';
 import NavBar from '../../reusableItems/components/NavBar';
-import DietaryIcon from '../../reusableItems/icons/DietaryIcon';
 export default function RestaurantSettings() {
   const [ open, setOpen ] = useState(false);
-  const { currentUser } = useAuth();
   const router = useRouter();
   const restaurantID = router.query.restaurantSettings;
   console.log(`ROUTER QUERY`, router.query);
   const [ restaurant, setRestaurant ] = useState();
-  const restaurantCollectionReference = collection(db, `Restaurant`);
 
   // ! implement appropiate model from Prisma
   // const fetchData = async () => {
@@ -34,7 +28,8 @@ export default function RestaurantSettings() {
   // ! implement appropiate model from Prisma
     // fetchData().then((data) => {
     //     let diets = ['glutenFree', 'halal', 'kosher', 'vegan', 'vegetarian']
-    //     let cuisines = ['american', 'bakery', 'chinese', 'fastFood', 'french', 'indian', 'italian', 'japanese', 'mexican', 'pizza', 'seafood', 'steak', 'thai']
+    //     let cuisines = ['american', 'bakery', 'chinese', 'fastFood', 'french',
+    // 'indian', 'italian', 'japanese', 'mexican', 'pizza', 'seafood', 'steak', 'thai']
     //     const dietaryChecker = (dietArr, objectSpot) => {
     //         for (let diet of dietArr) {
     //             let dietInput = document.getElementById(diet)
@@ -250,24 +245,62 @@ export default function RestaurantSettings() {
       <NavBar />
       {console.log(restaurant)}
       <div className="bg-[#FFFFFF] border-b-2">
-        {restaurant ? <h1 className="text-lg m-4 mt-6">{`${restaurant[0].restaurantInformation.restaurantName} Settings`}</h1> : <h1>Restaurant Settings</h1>}
+        {
+          restaurant
+            ? <h1 className="text-lg m-4 mt-6">
+                {`${restaurant[0].restaurantInformation.restaurantName} Settings`}
+              </h1>
+            : <h1>Restaurant Settings</h1>}
 
       </div>
       <div className='overflow-auto flex'>
         <nav className="w-[195px] h-[100vh] bg-gray-50 drop-shadow-md">
           <ul className="mt-10 ">
             <div className="flex flex-col">
-              <li id="hoursNav" onClick={(e) => { divSelector(hoursDiv); }} className="mt-2 text-sm hover:cursor-pointer p-3 transition-all  whitespace-nowrap float-left bg-gray-50 hover:bg-white active:bg-white"> <img className="w-[10%] inline mr-1 mb-[1px]" src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/icons%2Fclock.svg?alt=media&token=d959bf28-0d3b-4906-bbd2-a7c266fd4884" alt="" />hours</li>
-              <li id="addressNav" onClick={(e) => { divSelector(addressDiv); }} className="mt-2 text-sm hover:cursor-pointer p-3 transition-all whitespace-nowrap float-left bg-gray-50 hover:bg-white active:bg-white"><img className="w-[10%] inline mr-1 mb-[1px]" src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/icons%2Fmappin.and.ellipse.svg?alt=media&token=0e333f1c-b3a2-47b6-8989-10177163a752" alt="" />address</li>
-              <li id="dietaryNav" onClick={(e) => { divSelector(dietaryDiv); }} className="mt-2 text-sm hover:cursor-pointer p-3 transition-all whitespace-nowrap float-left bg-gray-50 hover:bg-white active:bg-white"><img className="w-[10%] inline mr-1 mb-[1px]" src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/icons%2Ffork.knife.svg?alt=media&token=10014d72-d84c-4568-a338-cc639545fffa" alt="" />dietary</li>
-              <li id="generalInfoNav" onClick={(e) => { divSelector(generalDiv); }} className="mt-2 text-sm hover:cursor-pointer p-3 transition-all whitespace-nowrap float-left bg-gray-50 hover:bg-white active:bg-white"><img className="w-[10%] inline mr-1 mb-[1px]" src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/icons%2Fmenucard.svg?alt=media&token=5d8724ad-f26c-4812-99ed-cf6452323488" alt="" />general information</li>
-              {/* <li id="imagesNav" className="mt-2 text-sm hover:cursor-pointer p-3 transition-all whitespace-nowrap float-left bg-gray-50 hover:bg-white active:bg-white"><img className="w-[10%] inline mr-1 mb-[1px]" src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/icons%2Flandscape.artframe.svg?alt=media&token=5b648555-da26-4eba-bf3a-447414606dbe" alt="" />Restaurant Images</li>*/}
+
+              <li id="hoursNav" onClick={() => { divSelector(hoursDiv); }}
+                className="mt-2 text-sm hover:cursor-pointer p-3 transition-all
+              whitespace-nowrap float-left bg-gray-50 hover:bg-white active:bg-white">
+                <Image className="w-[10%] inline mr-1 mb-[1px]"
+                  src="https://firebasestorage.googleapis.com
+              /v0/b/plopit-aceb3.appspot.com/o/
+              icons%2Fclock.svg?alt=media&token=d959bf28-0d3b-4906-bbd2-a7c266fd4884"
+                  alt="" />hours</li>
+
+              <li id="addressNav" onClick={() => { divSelector(addressDiv); }}
+                className="mt-2 text-sm hover:cursor-pointer p-3
+              transition-all whitespace-nowrap float-left bg-gray-50 hover:bg-white active:bg-white">
+                <Image className="w-[10%] inline mr-1 mb-[1px]"
+                  src="https://firebasestorage.googleapis.com
+                /v0/b/plopit-aceb3.appspot.com/o/
+                icons%2Fmappin.and.ellipse.svg?alt=media&token=0e333f1c-b3a2-47b6-8989-10177163a752"
+                  alt="" />address</li>
+
+              <li id="dietaryNav" onClick={() => { divSelector(dietaryDiv); }}
+                className="mt-2 text-sm hover:cursor-pointer
+               p-3 transition-all whitespace-nowrap float-left
+                bg-gray-50 hover:bg-white active:bg-white">
+                <Image className="w-[10%] inline mr-1 mb-[1px]"
+                  src="https://firebasestorage.googleapis.com
+                  /v0/b/plopit-aceb3.appspot.com/o/
+                  icons%2Ffork.knife.svg?alt=media&token=10014d72-d84c-4568-a338-cc639545fffa"
+                  alt="" />dietary</li>
+
+              <li id="generalInfoNav" onClick={() => { divSelector(generalDiv); }}
+                className="mt-2 text-sm hover:cursor-pointer
+              p-3 transition-all whitespace-nowrap float-left
+               bg-gray-50 hover:bg-white active:bg-white">
+                <Image className="w-[10%] inline mr-1 mb-[1px]"
+                  src="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/icons
+                %2Fmenucard.svg?alt=media&token=5d8724ad-f26c-4812-99ed-cf6452323488"
+                  alt="" />general information</li>
+
             </div>
           </ul>
         </nav>
         <div id="hours-div" className='flex flex-col w-full items-center'>
           <h1 className="m-[3.5rem] mb-5 ml-0 mr-[7rem] text-xl items-center">Hours</h1>
-          <form action="" id="hours_form" onSubmit={(e) => { handleHoursForm(e); }}>
+          <form action="" id="hours_form" onSubmit={async (e) => { await handleHoursForm(e); }}>
             <div className="ml-2rem md:ml-[5rem] flex flex-col items-center">
               <div>
                 <h1>Monday</h1>
@@ -311,7 +344,10 @@ export default function RestaurantSettings() {
                 <p className="inline">-</p>
                 <input className="ml-2 text-sm md:text-base" type="time" name="sunday_end" id="sunday_end" />
               </div>
-              <button className="inline-flex items-center px-4 py-2 border self-end mt-5 border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit">Save</button>
+              <button className="inline-flex items-center px-4 py-2 border
+              self-end mt-5 border-gray-300 shadow-sm text-base font-medium
+              rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none
+              focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit">Save</button>
             </div>
 
           </form>
@@ -319,48 +355,84 @@ export default function RestaurantSettings() {
 
         <div id="address-div" className='flex hidden flex-col w-full mt-[7rem] items-center'>
           <h1 className=" mb-5  mr-[2rem] text-xl">Address</h1>
-          <form id="addressForm" onSubmit={(e) => { handleAddressForm(e); }}>
+          <form id="addressForm" onSubmit={async (e) => { await handleAddressForm(e); }}>
             <div className="mt-1 ml-[5rem] flex flex-col items-center">
 
-              <label htmlFor="restaurantAddressStreet" className="block self-start text-sm font-medium mt-4 text-gray-700">Street</label>
+              <label htmlFor="restaurantAddressStreet"
+                className="block self-start text-sm font-medium mt-4 text-gray-700">Street</label>
               <input
                 type="address"
                 name="restaurantAddressStreet"
-                defaultValue={restaurant ? restaurant[0].restaurantInformation.restaurantAddress.street : ``}
+                defaultValue={
+                  restaurant
+                    ? restaurant[0].restaurantInformation.restaurantAddress.street
+                    : ``
+                }
                 id="restaurantAddressStreet"
-                className="shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                className="shadow-sm p-2
+                focus:ring-indigo-500 focus:border-indigo-500 blo
+                ck w-full sm:text-sm border-gray-300 rounded-md"
               />
-              <label htmlFor="restaurantAddressCity" className="block self-start text-sm font-medium mt-4 text-gray-700">City</label>
+              <label htmlFor="restaurantAddressCity"
+                className="block self-start text-sm font-medium mt-4 text-gray-700">City</label>
               <input
                 type="address"
                 name="restaurantAddressCity"
                 id="restaurantAddressCity"
-                defaultValue={restaurant ? restaurant[0].restaurantInformation.restaurantAddress.city : ``}
-                className="shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                defaultValue={
+                  restaurant
+                    ? restaurant[0].restaurantInformation.restaurantAddress.city
+                    : ``
+                }
+                className="shadow-sm p-2
+                 focus:ring-indigo-500 focus:border-indigo-500 block w-full
+                  sm:text-sm border-gray-300 rounded-md"
               />
-              <label htmlFor="restaurantAddressState" className="block text-sm self-start font-medium mt-4 text-gray-700">State</label>
+              <label htmlFor="restaurantAddressState"
+                className="block text-sm self-start font-medium mt-4
+               text-gray-700">State</label>
               <input
                 type="address"
                 name="restaurantAddressState"
                 id="restaurantAddressState"
-                defaultValue={restaurant ? restaurant[0].restaurantInformation.restaurantAddress.state : ``}
-                className="shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                defaultValue={
+                  restaurant
+                    ? restaurant[0].restaurantInformation.restaurantAddress.state
+                    : ``
+                }
+                className="shadow-sm p-2
+                 focus:ring-indigo-500 focus:border-indigo-500 block w-full
+                  sm:text-sm border-gray-300 rounded-md"
               />
-              <label htmlFor="restaurantAddressZip" className="block text-sm self-start font-medium mt-4 text-gray-700">Zip</label>
+              <label htmlFor="restaurantAddressZip"
+                className="block text-sm self-start
+              font-medium mt-4 text-gray-700">
+                Zip
+              </label>
               <input
                 type="address"
                 name="restaurantAddressZip"
                 id="restaurantAddressZip"
-                defaultValue={restaurant ? restaurant[0].restaurantInformation.restaurantAddress.zip : ``}
-                className="shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                defaultValue={
+                  restaurant
+                    ? restaurant[0].restaurantInformation.restaurantAddress.zip
+                    : ``
+                }
+                className="shadow-sm p-2
+                 focus:ring-indigo-500 focus:border-indigo-500 block w-full
+                 sm:text-sm border-gray-300 rounded-md"
               />
-              <button className="inline-flex items-center px-4 py-2 border self-end mt-5 border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit">Save</button>
+              <button
+                className="inline-flex items-center px-4 py-2 border self-end mt-5
+               border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700
+                bg-white hover:bg-gray-50 focus:outline-none focus:ring-2
+                 focus:ring-offset-2 focus:ring-indigo-500" type="submit">Save</button>
             </div>
           </form>
         </div>
         <div id="dietary-div" className='flex hidden flex-col w-full mt-[7rem] items-center'>
           <h1>Dietary</h1>
-          <form id="dietaryForm" onSubmit={(e) => { handleDietaryForm(e); }}>
+          <form id="dietaryForm" onSubmit={async (e) => { await handleDietaryForm(e); }}>
             <div id="dietaryOptions" className="flex flex-col mt-1">
               <div>
                 <input
@@ -547,13 +619,16 @@ export default function RestaurantSettings() {
                 </div>
               </div>
             </div>
-            <button className="mr-4 inline-flex items-center px-4 py-2 border self-end mt-5 border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit">Save</button>
+            <button className="mr-4 inline-flex items-center px-4 py-2 border
+            self-end mt-5 border-gray-300 shadow-sm text-base font-medium
+            rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none
+             focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit">Save</button>
 
           </form>
         </div>
         <div id="general-div" className='flex hidden flex-col w-full mt-[7rem] items-center'>
           <h1>General Information</h1>
-          <form id="generalInfoForm" onSubmit={(e) => { handleGeneralForm(e); }}>
+          <form id="generalInfoForm" onSubmit={async (e) => { await handleGeneralForm(e); }}>
             <div className="mt-5 flex flex-col items-center">
               <div className='self-start'>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -565,15 +640,21 @@ export default function RestaurantSettings() {
                   name="businessName"
                   id="businessName"
                   defaultValue={restaurant ? restaurant[0].restaurantInformation.restaurantName : ``}
-                  className="shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 w-[20rem] sm:text-sm bg-gray-50 border-gray-300 rounded-md"
+                  className="shadow-sm p-2 focus:ring-indigo-500
+                  focus:border-indigo-500 w-[20rem] sm:text-sm bg-gray-50 border-gray-300 rounded-md"
                 />
 
               </div>
-              <label htmlFor="restaurantDescription" className="block text-sm self-start font-medium mt-4  text-gray-700">
+              <label htmlFor="restaurantDescription"
+                className="block text-sm self-start font-medium mt-4  text-gray-700">
                                 Restaurant Description
               </label>
               <div className="mt-1">
-                <textarea className="min-w-[20rem] max-h-[15rem] bg-gray-50" defaultValue={restaurant ? restaurant[0].restaurantInformation.restaurantDescription : ``} name="restaurantDescription" cols='0' rows='30' id="restaurantDescription">
+                <textarea className="min-w-[20rem] max-h-[15rem] bg-gray-50"
+                  defaultValue={
+                    restaurant
+                      ? restaurant[0].restaurantInformation.restaurantDescription
+                      : ``} name="restaurantDescription" cols='0' rows='30' id="restaurantDescription">
 
                 </textarea>
 
@@ -587,8 +668,14 @@ export default function RestaurantSettings() {
                     type="text"
                     name="phoneNumber"
                     id="phoneNumber"
-                    defaultValue={restaurant ? restaurant[0].restaurantInformation.phoneNumber : ``}
-                    className="shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-[20rem] sm:text-sm border-gray-500 bg-gray-50 rounded-md"
+                    defaultValue={
+                      restaurant
+                        ? restaurant[0].restaurantInformation.phoneNumber
+                        : ``
+                    }
+                    className="shadow-sm p-2 focus:ring-indigo-500
+                     focus:border-indigo-500 block w-[20rem] sm:text-sm
+                      border-gray-500 bg-gray-50 rounded-md"
 
                   />
 
@@ -603,13 +690,22 @@ export default function RestaurantSettings() {
                     type="text"
                     name="websiteURL"
                     id="websiteURL"
-                    defaultValue={restaurant ? restaurant[0].restaurantInformation.websiteURL : ``}
-                    className="shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-[20rem] sm:text-sm bg-gray-50 border-gray-300 rounded-md"
+                    defaultValue={
+                      restaurant
+                        ? restaurant[0].restaurantInformation.websiteURL
+                        : ``
+                    }
+                    className="shadow-sm p-2 focus:ring-indigo-500
+                     focus:border-indigo-500 block w-[20rem] sm:text-sm
+                      bg-gray-50 border-gray-300 rounded-md"
                   />
 
                 </div>
               </div>
-              <button className="inline-flex items-center px-4 py-2 border self-end mt-5 border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit">Save</button>
+              <button className="inline-flex items-center px-4 py-2 border self-end mt-5
+               border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700
+                bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2
+                 focus:ring-indigo-500" type="submit">Save</button>
             </div>
           </form>
         </div>
@@ -642,7 +738,9 @@ export default function RestaurantSettings() {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+              <div className="relative inline-block align-bottom bg-white rounded-lg
+              px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl
+               transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                 <div>
                   <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
                     <CheckIcon className="h-6 w-6 text-blue-600" aria-hidden="true" />

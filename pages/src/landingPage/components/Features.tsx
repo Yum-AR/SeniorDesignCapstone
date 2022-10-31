@@ -158,15 +158,18 @@ const Features: React.FC = () => {
               <menu className="absolute max-w-[25%] max-h-[25%] right-0 top-0">
                 <a
                   rel="ar"
-                  // eslint-disable-next-line max-len
-                  href="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/restaurants%2FRaivis_Restaurant%2Fsalmon.usdz?alt=media&token=c6823f38-0798-4c6e-baf8-8ec46c4f1b99"
+
+                  href="https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/
+                  restaurants%2FRaivis_Restaurant%2Fsalmon.usdz?alt=media&token=c6823f38-0798-4c6e-baf8-8ec46c4f1b99"
                 >
                   <Image
                     width="100%" height="100%"
                     className="max-w-[100%] max-h-[100%]"
                     alt="ar button"
-                    // eslint-disable-next-line max-len
-                    src="https://media.istockphoto.com/photos/dotted-grid-paper-background-texture-seamless-repeat-pattern-picture-id1320330053?b=1&k=20&m=1320330053&s=170667a&w=0&h=XisfN35UnuxAVP_sjq3ujbFDyWPurSfSTYd-Ll09Ncc=" />
+
+                    src="https://media.istockphoto.com/photos/dotted-grid-paper-background-
+                    texture-seamless-repeat-pattern-picture-id1320330053
+                    ?b=1&k=20&m=1320330053&s=170667a&w=0&h=XisfN35UnuxAVP_sjq3ujbFDyWPurSfSTYd-Ll09Ncc=" />
 
                 </a>
               </menu>
@@ -250,8 +253,8 @@ const Features: React.FC = () => {
                 height="100%"
                 className="relative mx-auto"
                 width={490}
-                // eslint-disable-next-line max-len
-                src="https://images.unsplash.com/photo-1590126141992-d6a613152c77?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
+                src="https://images.unsplash.com/photo-1590126141992-d6a613152c77?ixlib=rb-1.2.
+                1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
                 alt=""
               />
             </div>

@@ -2,7 +2,6 @@ import React from 'react';
 import HomeNav from '../landingPage/components/HomeNav';
 import Footer from '../landingPage/components/Footer';
 
-/* This example requires Tailwind CSS v2.0+ */
 const Example: React.FC = () =>
   <>
     <HomeNav />

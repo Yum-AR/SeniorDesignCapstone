@@ -19,7 +19,9 @@ export default function SearchCards({ restaurantArray }: {restaurantArray: any})
     <>
       <div className="w-full">
         <ul role="list" className="space-y-3 w-full">
-          {restaurantArray.map((item: { id?: any, restaurantSettings?: any, restaurantInformation?: any, businessName?: any }) => (
+          {restaurantArray.map((
+            item: { id?: any, restaurantSettings?: any, restaurantInformation?: any, businessName?: any },
+          ) => (
             console.log(item),
             <div className=" m-5 mb-10">
 
@@ -31,8 +33,9 @@ export default function SearchCards({ restaurantArray }: {restaurantArray: any})
                       <Image width="100%" height="100%" className="   h-96 object-contain rounded"
                         src={item.restaurantSettings.restaurantHeaderImageURL
                           ? item.restaurantSettings.restaurantHeaderImageURL
-                          // eslint-disable-next-line max-len
-                          : `https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80`} alt="" />
+                          : `https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?ixlib=rb-1.2
+                          .1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80`}
+                        alt="" />
                     </div>
 
                     <div className=" pl-6 pt-6 text-left w-[50%]">

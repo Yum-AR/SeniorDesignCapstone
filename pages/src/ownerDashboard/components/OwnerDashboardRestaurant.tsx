@@ -82,10 +82,14 @@ export default function OwnerDashboardRestaurant() {
               </div>
               <div>
                 <Link href={`menuItems/${restaurant.restaurantID}`} >
-                  <Image width="100%" height="100%" src={restaurant.restaurantSettings.restaurantThumbnailImageURL !== undefined ? restaurant.restaurantSettings.restaurantThumbnailImageURL
-                    // eslint-disable-next-line max-len
-                    : `https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/menuDefault.png?alt=media&token=e3fc6f48-4489-4243-b457-680edfdcbd6c`}
-                  className="w-full h-full hover:cursor-pointer rounded"/>
+                  <Image width="100%" height="100%"
+                    alt=''
+                    src={
+                      restaurant.restaurantSettings.restaurantThumbnailImageURL !== undefined
+                        ? restaurant.restaurantSettings.restaurantThumbnailImageURL
+                        : `https://firebasestorage.googleapis.com/v0/b/plopit-aceb3.appspot.com/o/
+                    menuDefault.png?alt=media&token=e3fc6f48-4489-4243-b457-680edfdcbd6c`}
+                    className="w-full h-full hover:cursor-pointer rounded"/>
                 </Link>
               </div>
             </div>)}

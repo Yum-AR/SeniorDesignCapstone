@@ -8,7 +8,7 @@ const DashboardTable: React.FC = () => {
   const [ open, setOpen ] = useState(false);
   const [ approvalType, setApprovalType ] = useState();
 
-    // ! implement appropiate model from Prisma
+  // ! implement appropiate model from Prisma
   // const approvalModel = async (row: { id: string; }) => {
   //   const updateRow = doc(db, `MenuItems`, row.id);
   //   await updateDoc(updateRow, {
@@ -39,7 +39,7 @@ const DashboardTable: React.FC = () => {
   const columns = [
     {
       name: `image`,
-      cell: (row: { thumbnailURL: string | undefined; }) =>
+      cell: (row: { thumbnailURL: string | undefined }) =>
         <>
           {row.thumbnailURL ? <img className="w-[50%] h-[50%]" src={row.thumbnailURL} /> : ` no image`}
 
@@ -48,7 +48,8 @@ const DashboardTable: React.FC = () => {
     },
     {
       name: `created date`,
-      selector: (row: { createdDate: { toDate: () => { (): any; new(): any; toGMTString: { (): any; new(): any; }; }; }; }) => {
+      selector: (row: { createdDate: {
+        toDate: () => { (): any, new(): any, toGMTString: { (): any, new(): any } }; }; }) => {
         if (row.createdDate) {
           return row.createdDate.toDate().toGMTString();
         }
@@ -59,17 +60,17 @@ const DashboardTable: React.FC = () => {
     },
     {
       name: `Name`,
-      selector: (row: { menuItem: any; }) => row.menuItem,
+      selector: (row: { menuItem: any }) => row.menuItem,
       sortable: true,
     },
     {
       name: `Restaurant ID`,
-      selector: (row: { id: any; }) => row.id,
+      selector: (row: { id: any }) => row.id,
       sortable: true,
     },
     {
       name: `download`,
-      cell: (row: { modelURL: string; id: string | undefined; }) =>
+      cell: (row: { modelURL: string, id: string | undefined }) =>
         <button
           onClick={(e) => { e.preventDefault(); location.href = row.modelURL; }}
           data-tag="allowRowEvents"
@@ -82,7 +83,7 @@ const DashboardTable: React.FC = () => {
     },
     {
       name: `Approval`,
-      cell: (row: { id: any; }) => <div className="flex">
+      cell: (row: { id: any }) => <div className="flex">
 
         <button onClick={(e) => { e.preventDefault(); approvalModel(row); }}
           data-tag="allowRowEvents"
@@ -122,8 +123,8 @@ const DashboardTable: React.FC = () => {
   //       console.error(`Failed to get data`, err);
   //     });
   // };
-    // ! implement appropiate model from Prisma
-  //const MINUTE_MS = 30000;
+  // ! implement appropiate model from Prisma
+  // const MINUTE_MS = 30000;
 
   // useEffect(() => {
 
